@@ -35,6 +35,7 @@ This function should only modify configuration layer settings."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
+     html
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press `SPC f e R' (Vim style) or
@@ -50,8 +51,9 @@ This function should only modify configuration layer settings."
      (c-c++ :variables c-c++-enable-clang-support t)
      (latex :variables latex-enable-magic nil magic-latex-enable-suscript nil)
      bibtex
-     git
+     (mu4e :variables mu4e-installation-path "/usr/share/emacs/site-lisp/mu4e")
      ess
+     git
      pdf-tools
      elfeed
      markdown
@@ -59,7 +61,7 @@ This function should only modify configuration layer settings."
      (python :variables python-backend 'lsp python-enable-yapf-format-on-save t python-sort-imports-on-save t)
      shell
      (org :variables
-          org-agenda-files '("~/coisas/matematicasdavida/minhascoisas/org/academic.org"
+         org-agenda-files '("~/coisas/matematicasdavida/minhascoisas/org/academic.org"
                              "~/coisas/matematicasdavida/minhascoisas/org/personal.org"
                              "~/coisas/matematicasdavida/minhascoisas/org/application.org"))
      ;spell-checking
@@ -183,7 +185,7 @@ It should only modify the values of Spacemacs settings."
    dotspacemacs-editing-style 'emacs
 
    ;; If non-nil output loading progress in `*Messages*' buffer. (default nil)
-   dotspacemacs-verbose-loading 't
+   dotspacemacs-verbose-loading 'nil
 
    ;; Specify the startup banner. Default value is `official', it displays
    ;; the official spacemacs logo. An integer value is the index of text
@@ -236,7 +238,7 @@ It should only modify the values of Spacemacs settings."
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
    dotspacemacs-default-font '("DejaVu Sans"
-                               :size 15
+                               :size 14
                                :weight normal
                                :width normal)
 
@@ -442,7 +444,7 @@ It should only modify the values of Spacemacs settings."
    dotspacemacs-icon-title-format nil
 
    ;; Delete whitespace while saving buffer. Possible values are `all'
-   ;; to aggressively delete empty line and long sequences of whitespace,
+   ;; to aggressively delete empty line and long sequences of hitespace,
    ;; `trailing' to delete only the whitespace at end of lines, `changed' to
    ;; delete only whitespace for changed lines or `nil' to disable cleanup.
    ;; (default nil)
@@ -486,6 +488,7 @@ This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
+
 
   ;;Hook at startup
 
@@ -560,6 +563,7 @@ before packages are loaded."
        "\"/mnt/c/Program Files (x86)/Google/Chrome/Application/chrome.exe\"" " ") url ))
     )
 
+  (setq browse-url-browser-function 'browse-url-ariel)
 
 ;; ESS SETUP - Got from github
 
@@ -648,12 +652,12 @@ before packages are loaded."
 
 
 ;;;org-trello
-;; (use-package org-trello
-;;  :ensure t )
+ (use-package org-trello
+ :ensure t )
 
-;; ;; org-bullets
-;; (use-package org-bullets
-;;   :ensure t)
+ ;; ;; org-bullets
+ (use-package org-bullets
+   :ensure t)
  (add-hook 'org-mode-hook 'org-bullets-mode)
 
 ;;; Some Variables
@@ -694,13 +698,11 @@ before packages are loaded."
     ("Cancelled" . "forest green")
     ("HugeObstacle" . "red")
     ("TODO" . "magenta"))))
-
 (setq org-habit-preceding-days 7)
 (setq org-habit-show-all-today t)
-(setq org-habit-show-done-always-green t)
+(setq org-habit-show-done-always-green t))
 
 
-)
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
@@ -714,7 +716,7 @@ This function is called at the very end of Spacemacs initialization."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(browse-url-browser-function 'browse-url-chrome)
+ '(browse-url-browser-function 'browse-url-ariel)
  '(browse-url-chrome-program
    "/mnt/c/Program\\ Files\\ \\(x86\\)/Google/Chrome/Application/chrome.exe")
  '(elpy-rpc-python-command "python3")
@@ -771,91 +773,53 @@ This function is called at the very end of Spacemacs initialization."
    '(org-pdftools insert-shebang fish-mode company-shell bibtex-completion request-deferred atomic-chrome org-edna powershell web-beautify livid-mode json-mode json-snatcher json-reformat js2-refactor multiple-cursors js-doc tern coffee-mode org-trello csv-mode magit-section org-ql peg ov org-super-agenda ts ht try org-caldav toml-mode racer pos-tip cargo rust-mode wgrep smex ivy-hydra flyspell-correct-ivy counsel-projectile counsel org-gcal org-bullets orgit org-category-capture org-plus-contrib projectile pkg-info epl flx evil goto-chg undo-tree polymode bind-key packed helm avy helm-core async popup workgroups2 anaphora rainbow-delimiters org-brain elpy highlight-indentation org-ref key-chord ivy lv helm-bibtex parsebib ess-smart-equals ess-R-data-view ctable engine-mode biblio biblio-core swiper elfeed-web elfeed-org elfeed-goodies ace-jump-mode noflet powerline popwin elfeed pdf-tools tablist org-noter zenburn-theme zen-and-art-theme white-sand-theme underwater-theme ujelly-theme twilight-theme twilight-bright-theme twilight-anti-bright-theme toxi-theme tao-theme tangotango-theme tango-plus-theme tango-2-theme sunny-day-theme sublime-themes subatomic256-theme subatomic-theme spacegray-theme soothe-theme solarized-theme soft-stone-theme soft-morning-theme soft-charcoal-theme smyx-theme seti-theme reverse-theme rebecca-theme railscasts-theme purple-haze-theme professional-theme planet-theme phoenix-dark-pink-theme phoenix-dark-mono-theme organic-green-theme omtose-phellack-theme oldlace-theme occidental-theme obsidian-theme noctilux-theme naquadah-theme mustang-theme monokai-theme monochrome-theme molokai-theme moe-theme minimal-theme material-theme majapahit-theme madhat2r-theme lush-theme light-soap-theme jbeans-theme jazz-theme ir-black-theme inkpot-theme heroku-theme hemisu-theme hc-zenburn-theme gruvbox-theme gruber-darker-theme grandshell-theme gotham-theme gandalf-theme flatui-theme flatland-theme farmhouse-theme exotica-theme espresso-theme dracula-theme django-theme darktooth-theme autothemer darkokai-theme darkmine-theme darkburn-theme dakrone-theme cyberpunk-theme color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized clues-theme cherry-blossom-theme busybee-theme bubbleberry-theme birds-of-paradise-plus-theme badwolf-theme apropospriate-theme anti-zenburn-theme ample-zen-theme ample-theme alect-themes afternoon-theme flyspell-correct-helm flyspell-correct auto-dictionary wolfram-mode pocket-lib kv ess julia-mode pocket-mode pocket-api gmail-message-mode ham-mode html-to-markdown flymd edit-server yapfify xterm-color smeargle shell-pop pyvenv pytest pyenv-mode py-isort pip-requirements rg-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download multi-term mmm-mode markdown-toc markdown-mode magit-gitflow magit-popup live-py-mode hy-mode dash-functional htmlize helm-pydoc helm-gitignore helm-company gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md fuzzy evil-magit magit transient git-commit with-editor eshell-z eshell-prompt-extras esh-help ein skewer-mode deferred request websocket js2-mode simple-httpd disaster cython-mode company-statistics company-c-headers company-auctex company-anaconda company cmake-mode clang-format auctex-latexmk auctex anaconda-mode pythonic f dash s ac-ispell auto-complete which-key use-package pcre2el macrostep hydra helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-flx helm-descbinds helm-ag exec-path-from-shell evil-visualstar evil-escape elisp-slime-nav diminish bind-map auto-compile ace-window ace-jump-helm-line))
  '(rmh-elfeed-org-files
    '("~/coisas/matematicasdavida/minhascoisas/org/rssfeeds.org") t)
- '(send-mail-function 'mailclient-send-it)
- '(wolfram-path "C:/Users/Ariel/")
+ '(wolfram-path "/mnt/c/Ariel/")
  '(wolfram-program
-   "mnt/c/Program-Files/Wolfram-Research/Mathematica/12.0/math.exe")
+   "/mnt/c/Program-Files/Wolfram-Research/Mathematica/12.0/math.exe")
  '(wolfram-program-2
-   "mnt/c/Program-Files/Wolfram-Research/Mathematica/12.0/math.exe"))
+   "/mnt/c/Program-Files/Wolfram-Research/Mathematica/12.0/math.exe"))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(aw-leading-char-face ((t (:inherit ace-jump-face-foreground :height 2.0)))))
-)
+ '(aw-leading-char-face ((t (:inherit ace-jump-face-foreground :height 2.0))))))
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(ansi-color-names-vector
+   ["#0a0814" "#f2241f" "#67b11d" "#b1951d" "#4f97d7" "#a31db1" "#28def0" "#b2b2b2"])
+ '(blink-cursor-mode nil)
  '(browse-url-browser-function 'browse-url-ariel)
- '(browse-url-chrome-program
-   "\"\\\"/mnt/c/Program Files (x86)/Google/Chrome/Application/chrome.exe\\\"\"")
- '(browse-url-generic-program nil)
- '(elpy-rpc-python-command "python3")
- '(org-agenda-files
-   '("~/coisas/matematicasdavida/minhascoisas/org/application.org" "~/coisas/matematicasdavida/minhascoisas/org/personal.org" "~/coisas/matematicasdavida/minhascoisas/org/academic.org"))
- '(org-capture-templates
-   '(("a" "Appointment" entry
-      (file+olp "~/coisas/matematicasdavida/minhascoisas/org/personal.org" "External Communication" "Appointments")
-      "")
-     ("r" "Talk to" entry
-      (file+olp "~/coisas/matematicasdavida/minhascoisas/org/personal.org" "External Communication" "Talk to")
-      "")
-     ("b" "Blog idea" entry
-      (file+olp "~/coisas/matematicasdavida/minhascoisas/org/application.org" "Build/Improve Website" "Add Content")
-      "
-" :prepend t)
-     ("t" "Task" entry
-      (file+headline "~/coisas/matematicasdavida/minhascoisas/org/notes.org" "Captured Tasks")
-      "
-")
-     ("n" "Note" entry
-      (file+headline "~/coisas/matematicasdavida/minhascoisas/org/notes.org" "Notespace")
-      "
-")
-     ("p" "Project" entry
-      (file+olp "~/coisas/matematicasdavida/minhascoisas/org/notes.org" "Captured Projects")
-      "")))
- '(org-gcal-auto-archive t)
- '(org-gcal-client-id
-   "219368028346-edf83viq9ucrk36mhpapqd7bbhk54500.apps.googleusercontent.com")
- '(org-gcal-client-secret "KeJ44RWV1i46_aPxRT32apgs")
- '(org-gcal-fetch-file-alist
-   '(("academic" . "C:/Users/Ariel/matematicasdavida/minhascoisas/org/test.org")))
- '(org-icalendar-combined-agenda-file "~/calendar.ics")
- '(org-icalendar-exclude-tags nil)
- '(org-icalendar-store-UID t)
- '(org-icalendar-timezone nil)
- '(org-icalendar-use-deadline '(event-if-not-todo event-if-todo))
- '(org-icalendar-use-scheduled '(event-if-not-todo event-if-todo))
- '(org-modules
-   '(org-bbdb org-bibtex org-docview org-eww org-gnus org-habit org-info org-irc org-mhe org-rmail org-w3m org-notify))
- '(org-ref-get-pdf-filename-function 'org-ref-get-pdf-filename-helm-bibtex)
- '(org-startup-align-all-tables t)
- '(org-todo-keyword-faces
-   '(("Idea" . "White")
-     ("MissingRequirement" . "yellow")
-     ("DONE" . "green")
-     ("Cancelled" . "forest green")
-     ("HugeObstacle" . "red")
-     ("TODO" . "magenta")))
- '(org-trello-current-prefix-keybinding "C-c o")
- '(orgtbl-optimized t)
+ '(column-number-mode t)
+ '(custom-safe-themes
+   '("bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" default))
+ '(display-battery-mode t)
+ '(evil-want-Y-yank-to-eol nil)
+ '(font-use-system-font t)
+ '(global-tab-line-mode nil)
+ '(mu4e-attachment-dir "/mnt/c/Ariel/Desktop")
+ '(mu4e-user-mail-address-list '("arielserranoni@gmail.com" "ariel@ime.usp.br"))
+ '(org-bullets-bullet-list '("✸" "►" "◉" "✿" "◇" "○"))
+ '(org-trello-current-prefix-keybinding "C-c o" nil (org-trello))
  '(package-selected-packages
-   '(insert-shebang fish-mode company-shell bibtex-completion request-deferred atomic-chrome org-edna powershell web-beautify livid-mode json-mode json-snatcher json-reformat js2-refactor multiple-cursors js-doc tern coffee-mode org-trello csv-mode magit-section org-ql peg ov org-super-agenda ts ht try org-caldav toml-mode racer pos-tip cargo rust-mode wgrep smex ivy-hydra flyspell-correct-ivy counsel-projectile counsel org-gcal org-bullets orgit org-category-capture org-plus-contrib projectile pkg-info epl flx evil goto-chg undo-tree polymode bind-key packed helm avy helm-core async popup workgroups2 anaphora rainbow-delimiters org-brain elpy highlight-indentation org-ref key-chord ivy lv helm-bibtex parsebib ess-smart-equals ess-R-data-view ctable engine-mode biblio biblio-core swiper elfeed-web elfeed-org elfeed-goodies ace-jump-mode noflet powerline popwin elfeed pdf-tools tablist org-noter zenburn-theme zen-and-art-theme white-sand-theme underwater-theme ujelly-theme twilight-theme twilight-bright-theme twilight-anti-bright-theme toxi-theme tao-theme tangotango-theme tango-plus-theme tango-2-theme sunny-day-theme sublime-themes subatomic256-theme subatomic-theme spacegray-theme soothe-theme solarized-theme soft-stone-theme soft-morning-theme soft-charcoal-theme smyx-theme seti-theme reverse-theme rebecca-theme railscasts-theme purple-haze-theme professional-theme planet-theme phoenix-dark-pink-theme phoenix-dark-mono-theme organic-green-theme omtose-phellack-theme oldlace-theme occidental-theme obsidian-theme noctilux-theme naquadah-theme mustang-theme monokai-theme monochrome-theme molokai-theme moe-theme minimal-theme material-theme majapahit-theme madhat2r-theme lush-theme light-soap-theme jbeans-theme jazz-theme ir-black-theme inkpot-theme heroku-theme hemisu-theme hc-zenburn-theme gruvbox-theme gruber-darker-theme grandshell-theme gotham-theme gandalf-theme flatui-theme flatland-theme farmhouse-theme exotica-theme espresso-theme dracula-theme django-theme darktooth-theme autothemer darkokai-theme darkmine-theme darkburn-theme dakrone-theme cyberpunk-theme color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized clues-theme cherry-blossom-theme busybee-theme bubbleberry-theme birds-of-paradise-plus-theme badwolf-theme apropospriate-theme anti-zenburn-theme ample-zen-theme ample-theme alect-themes afternoon-theme flyspell-correct-helm flyspell-correct auto-dictionary wolfram-mode pocket-lib kv ess julia-mode pocket-mode pocket-api gmail-message-mode ham-mode html-to-markdown flymd edit-server yapfify xterm-color smeargle shell-pop pyvenv pytest pyenv-mode py-isort pip-requirements rg-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download multi-term mmm-mode markdown-toc markdown-mode magit-gitflow magit-popup live-py-mode hy-mode dash-functional htmlize helm-pydoc helm-gitignore helm-company helm-c-yasnippet gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md fuzzy evil-magit magit transient git-commit with-editor eshell-z eshell-prompt-extras esh-help ein skewer-mode deferred request websocket js2-mode simple-httpd disaster cython-mode company-statistics company-c-headers company-auctex company-anaconda company cmake-mode clang-format auto-yasnippet yasnippet auctex-latexmk auctex anaconda-mode pythonic f dash s ac-ispell auto-complete which-key use-package pcre2el macrostep hydra helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-flx helm-descbinds helm-ag exec-path-from-shell evil-visualstar evil-escape elisp-slime-nav diminish bind-map auto-compile ace-window ace-jump-helm-line))
- '(rmh-elfeed-org-files
-   '("~/coisas/matematicasdavida/minhascoisas/org/rssfeeds.org") t)
- '(send-mail-function 'mailclient-send-it)
- '(wolfram-path "C:/Users/Ariel/")
+   '(web-mode tagedit slim-mode scss-mode sass-mode pug-mode haml-mode emmet-mode company-web web-completion-data counsel-tramp ht mixed-pitch cl-lib ws-butler winum volatile-highlights vi-tilde-fringe uuidgen toc-org spaceline restart-emacs persp-mode paradox spinner org-plus-contrib open-junk-file neotree move-text lorem-ipsum linum-relative link-hint indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode helm-themes helm-swoop helm-projectile helm-mode-manager helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido fill-column-indicator fancy-battery eyebrowse expand-region evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist highlight evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-ediff evil-args evil-anzu anzu eval-sexp-fu dumb-jump define-word column-enforce-mode clean-aindent-mode auto-highlight-symbol aggressive-indent adaptive-wrap ace-link ace-jump-helm-line yapfify xterm-color workgroups2 wolfram-mode which-key wgrep use-package smex smeargle shell-pop rainbow-delimiters pytest pyenv-mode py-isort pip-requirements pcre2el orgit org-trello request-deferred org-ref pdf-tools key-chord tablist org-present org-pomodoro alert log4e gntp org-noter org-mime org-download org-bullets org-brain multi-term mmm-mode markdown-toc markdown-mode magit-gitflow magit-popup macrostep live-py-mode ivy-hydra insert-shebang hydra lv hy-mode dash-functional htmlize helm-make helm-bibtex helm bibtex-completion parsebib helm-core gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md fuzzy flx fish-mode evil-visualstar evil-magit magit git-commit transient evil-escape evil goto-chg undo-tree ess-smart-equals ess-R-data-view ctable ess eshell-z eshell-prompt-extras esh-help engine-mode elpy pyvenv highlight-indentation elisp-slime-nav elfeed-web simple-httpd elfeed-org elfeed-goodies ace-jump-mode noflet powerline popwin elfeed ein with-editor exec-path-from-shell polymode deferred request anaphora websocket disaster diminish cython-mode csv-mode counsel-projectile projectile pkg-info epl counsel swiper ivy company-statistics company-shell company-c-headers company-auctex company-anaconda company cmake-mode clang-format bind-map bind-key biblio biblio-core auto-yasnippet yasnippet auto-compile packed auctex-latexmk auctex async anaconda-mode pythonic f dash s ace-window avy ac-ispell auto-complete popup))
+ '(send-mail-function 'smtpmail-send-it)
+ '(smtpmail-smtp-server "smtp.gmail.com")
+ '(smtpmail-smtp-service 587)
+ '(tab-bar-close-button-show nil)
+ '(tab-bar-show nil)
+ '(tool-bar-mode nil)
+ '(wolfram-path "/mnt/c/Users/Ariel")
  '(wolfram-program
-   "mnt/c/Program-Files/Wolfram-Research/Mathematica/12.0/math.exe")
- '(wolfram-program-2
-   "mnt/c/Program-Files/Wolfram-Research/Mathematica/12.0/math.exe"))
+   "\"/mnt/c/Program-Files/Wolfram-Research/Mathematica/12.0/math.exe\""))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(aw-leading-char-face ((t (:inherit ace-jump-face-foreground :height 2.0)))))
+ '(aw-leading-char-face ((t (:inherit ace-jump-face-foreground :height 2.0))))
+ '(org-code ((t (:foreground "#28def0" :family "Monospace"))))
+ '(org-table ((t (:background "#293239" :foreground "#b2b2b2" :strike-through nil :slant normal :weight semi-light :height 1.0 :width normal :family "Monospace")))))

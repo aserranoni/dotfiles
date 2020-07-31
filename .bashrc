@@ -104,5 +104,5 @@ fi
 
 export DISPLAY=$(awk '/nameserver / {print $2; exit}' /etc/resolv.conf 2>/dev/null):0
 export LIBGL_ALWAYS_INDIRECT=1
-alias gitinfo-installer='~/gitinfo-installer/gitinfoinstaller.sh'
+alias gitinfo-installer='~/gitinfo-installer/gitinfo-installer.sh'
 alias chrome="\"/mnt/c/Program Files (x86)/Google/Chrome/Application/chrome.exe\""
