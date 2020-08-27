@@ -106,3 +106,6 @@ export DISPLAY=$(awk '/nameserver / {print $2; exit}' /etc/resolv.conf 2>/dev/nu
 export LIBGL_ALWAYS_INDIRECT=1
 alias gitinfo-installer='~/gitinfo-installer/gitinfo-installer.sh'
 alias chrome="\"/mnt/c/Program Files (x86)/Google/Chrome/Application/chrome.exe\""
+alias arduino='arduino-cli.exe'
+alias read-com-port ='powershell.exe -File C:\Users\Ariel\Desktop\read-com-port.ps1'
+

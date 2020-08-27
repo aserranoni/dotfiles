@@ -35,7 +35,7 @@ This function should only modify configuration layer settings."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
-     html
+     windows-scripts
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press `SPC f e R' (Vim style) or
@@ -55,6 +55,8 @@ This function should only modify configuration layer settings."
      ess
      git
      pdf-tools
+     rust
+     html
      elfeed
      markdown
      ipython-notebook
@@ -490,16 +492,13 @@ Put your configuration code here, except for variables that should be set
 before packages are loaded."
 
 
-  ;;Hook at startup
-
-  ;; Extra custom keybindings
+;; Extra custom keybindings
   (global-set-key (kbd "C-x s") (quote eshell)) ;; open eshell
   (global-set-key (kbd "C-x C-2") (quote make-frame)) ;; open new frame
   ;;(global-set-key (kbd "C-s") (quote helm-occur)) ;; Helm fancy search
   (global-set-key (kbd "C-x w") (quote workgroups-mode)) ;; go-to workgroups
   (global-set-key (kbd "C-c s") (quote engine/search-duck-duck-go)) ;; search the web
   (global-set-key (kbd "C-c r") (quote rainbow-delimiters-mode)) ;; activate rainbow delimiters
-
 
 ;; Set wolfram mode for .m files - include other wolfram extensions
   (add-to-list 'auto-mode-alist '("\.m$" . wolfram-mode))
@@ -744,18 +743,6 @@ This function is called at the very end of Spacemacs initialization."
      ("p" "Project" entry
       (file+olp "~/coisas/matematicasdavida/minhascoisas/org/notes.org" "Captured Projects")
       "")))
- '(org-gcal-auto-archive t)
- '(org-gcal-client-id
-   "219368028346-edf83viq9ucrk36mhpapqd7bbhk54500.apps.googleusercontent.com")
- '(org-gcal-client-secret "KeJ44RWV1i46_aPxRT32apgs")
- '(org-gcal-fetch-file-alist
-   '(("academic" . "C:/Users/Ariel/matematicasdavida/minhascoisas/org/test.org")))
- '(org-icalendar-combined-agenda-file "~/calendar.ics")
- '(org-icalendar-exclude-tags nil)
- '(org-icalendar-store-UID t)
- '(org-icalendar-timezone nil)
- '(org-icalendar-use-deadline '(event-if-not-todo event-if-todo))
- '(org-icalendar-use-scheduled '(event-if-not-todo event-if-todo))
  '(org-modules
    '(org-bbdb org-bibtex org-docview org-eww org-gnus org-habit org-info org-irc org-mhe org-rmail org-w3m org-notify))
  '(org-ref-get-pdf-filename-function 'org-ref-get-pdf-filename-helm-bibtex)
@@ -802,10 +789,18 @@ This function is called at the very end of Spacemacs initialization."
  '(global-tab-line-mode nil)
  '(mu4e-attachment-dir "/mnt/c/Ariel/Desktop")
  '(mu4e-user-mail-address-list '("arielserranoni@gmail.com" "ariel@ime.usp.br"))
+ '(org-babel-python-command "python3")
+ '(org-babel-results-keyword "OUTPUT")
  '(org-bullets-bullet-list '("✸" "►" "◉" "✿" "◇" "○"))
+ '(org-file-apps
+   '((auto-mode . emacs)
+     ("\\.mm\\'" . default)
+     ("\\.x?html?\\'" . browse-url-ariel)
+     ("\\.pdf\\'" . emacs)))
  '(org-trello-current-prefix-keybinding "C-c o" nil (org-trello))
  '(package-selected-packages
-   '(web-mode tagedit slim-mode scss-mode sass-mode pug-mode haml-mode emmet-mode company-web web-completion-data counsel-tramp ht mixed-pitch cl-lib ws-butler winum volatile-highlights vi-tilde-fringe uuidgen toc-org spaceline restart-emacs persp-mode paradox spinner org-plus-contrib open-junk-file neotree move-text lorem-ipsum linum-relative link-hint indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode helm-themes helm-swoop helm-projectile helm-mode-manager helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido fill-column-indicator fancy-battery eyebrowse expand-region evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist highlight evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-ediff evil-args evil-anzu anzu eval-sexp-fu dumb-jump define-word column-enforce-mode clean-aindent-mode auto-highlight-symbol aggressive-indent adaptive-wrap ace-link ace-jump-helm-line yapfify xterm-color workgroups2 wolfram-mode which-key wgrep use-package smex smeargle shell-pop rainbow-delimiters pytest pyenv-mode py-isort pip-requirements pcre2el orgit org-trello request-deferred org-ref pdf-tools key-chord tablist org-present org-pomodoro alert log4e gntp org-noter org-mime org-download org-bullets org-brain multi-term mmm-mode markdown-toc markdown-mode magit-gitflow magit-popup macrostep live-py-mode ivy-hydra insert-shebang hydra lv hy-mode dash-functional htmlize helm-make helm-bibtex helm bibtex-completion parsebib helm-core gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md fuzzy flx fish-mode evil-visualstar evil-magit magit git-commit transient evil-escape evil goto-chg undo-tree ess-smart-equals ess-R-data-view ctable ess eshell-z eshell-prompt-extras esh-help engine-mode elpy pyvenv highlight-indentation elisp-slime-nav elfeed-web simple-httpd elfeed-org elfeed-goodies ace-jump-mode noflet powerline popwin elfeed ein with-editor exec-path-from-shell polymode deferred request anaphora websocket disaster diminish cython-mode csv-mode counsel-projectile projectile pkg-info epl counsel swiper ivy company-statistics company-shell company-c-headers company-auctex company-anaconda company cmake-mode clang-format bind-map bind-key biblio biblio-core auto-yasnippet yasnippet auto-compile packed auctex-latexmk auctex async anaconda-mode pythonic f dash s ace-window avy ac-ispell auto-complete popup))
+   '(powershell arduino-mode page-break-lines workgroups emoji-github toml-mode racer pos-tip cargo rust-mode web-mode tagedit slim-mode scss-mode sass-mode pug-mode haml-mode emmet-mode company-web web-completion-data counsel-tramp ht mixed-pitch cl-lib ws-butler winum volatile-highlights vi-tilde-fringe uuidgen toc-org spaceline restart-emacs persp-mode paradox spinner org-plus-contrib open-junk-file neotree move-text lorem-ipsum linum-relative link-hint indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode helm-themes helm-swoop helm-projectile helm-mode-manager helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido fill-column-indicator fancy-battery eyebrowse expand-region evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist highlight evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-ediff evil-args evil-anzu anzu eval-sexp-fu dumb-jump define-word column-enforce-mode clean-aindent-mode auto-highlight-symbol aggressive-indent adaptive-wrap ace-link ace-jump-helm-line yapfify xterm-color workgroups2 wolfram-mode which-key wgrep use-package smex smeargle shell-pop rainbow-delimiters pytest pyenv-mode py-isort pip-requirements pcre2el orgit org-trello request-deferred org-ref pdf-tools key-chord tablist org-present org-pomodoro alert log4e gntp org-noter org-mime org-download org-bullets org-brain multi-term mmm-mode markdown-toc markdown-mode magit-gitflow magit-popup macrostep live-py-mode ivy-hydra insert-shebang hydra lv hy-mode dash-functional htmlize helm-make helm-bibtex helm bibtex-completion parsebib helm-core gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md fuzzy flx fish-mode evil-visualstar evil-magit magit git-commit transient evil-escape evil goto-chg undo-tree ess-smart-equals ess-R-data-view ctable ess eshell-z eshell-prompt-extras esh-help engine-mode elpy pyvenv highlight-indentation elisp-slime-nav elfeed-web simple-httpd elfeed-org elfeed-goodies ace-jump-mode noflet powerline popwin elfeed ein with-editor exec-path-from-shell polymode deferred request anaphora websocket disaster diminish cython-mode csv-mode counsel-projectile projectile pkg-info epl counsel swiper ivy company-statistics company-shell company-c-headers company-auctex company-anaconda company cmake-mode clang-format bind-map bind-key biblio biblio-core auto-yasnippet yasnippet auto-compile packed auctex-latexmk auctex async anaconda-mode pythonic f dash s ace-window avy ac-ispell auto-complete popup))
+ '(python-shell-interpreter "python3" t)
  '(send-mail-function 'smtpmail-send-it)
  '(smtpmail-smtp-server "smtp.gmail.com")
  '(smtpmail-smtp-service 587)
