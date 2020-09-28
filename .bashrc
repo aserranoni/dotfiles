@@ -102,10 +102,10 @@ if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
     . /etc/bash_completion
 fi
 
-export DISPLAY=$(awk '/nameserver / {print $2; exit}' /etc/resolv.conf 2>/dev/null):0
+export DISPLAY=192.168.15.36:0
 export LIBGL_ALWAYS_INDIRECT=1
 alias gitinfo-installer='~/gitinfo-installer/gitinfo-installer.sh'
 alias chrome="\"/mnt/c/Program Files (x86)/Google/Chrome/Application/chrome.exe\""
 alias arduino='arduino-cli.exe'
-alias read-com-port ='powershell.exe -File C:\Users\Ariel\Desktop\read-com-port.ps1'
+alias read-com-port ='powershell.exe -File C:\Users\Ariel\matematicasdavida\minhascoisas\arduino\read-com-port.ps1'
 
