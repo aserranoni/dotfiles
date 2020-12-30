@@ -85,7 +85,10 @@ This function should only modify configuration layer settings."
                                       company-tabnine
                                       ace-window
                                       wolfram-mode
-                                      ;org-trello
+                                      neotree
+                                      undo-tree
+                                      ivy-rich
+                                      org-trello
                                       org-bullets
                                       org-brain
                                       org-noter
