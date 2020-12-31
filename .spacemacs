@@ -78,6 +78,7 @@ This function should only modify configuration layer settings."
    ;; '(your-package :location "~/path/to/your-package/")
    ;; Also include the dependencies as they will not be resolved automatically.
    dotspacemacs-additional-packages '(
+                                      doom-modeline
                                       workgroups2
                                       avy
                                       swiper
@@ -88,7 +89,6 @@ This function should only modify configuration layer settings."
                                       neotree
                                       undo-tree
                                       ivy-rich
-                                      org-trello
                                       org-bullets
                                       org-brain
                                       org-noter
@@ -495,211 +495,9 @@ configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
 
+(org-babel-load-file (expand-file-name "~/spacemacs-user-config.org"))
 
-;; Extra custom keybindings
-  (global-set-key (kbd "C-x s") (quote eshell)) ;; open eshell
-  (global-set-key (kbd "C-x C-2") (quote make-frame)) ;; open new frame
-  ;;(global-set-key (kbd "C-s") (quote helm-occur)) ;; Helm fancy search
-  (global-set-key (kbd "C-x w") (quote workgroups-mode)) ;; go-to workgroups
-  (global-set-key (kbd "C-c s") (quote engine/search-duck-duck-go)) ;; search the web
-  (global-set-key (kbd "C-c r") (quote rainbow-delimiters-mode)) ;; activate rainbow delimiters
-
-;; Set wolfram mode for .m files - include other wolfram extensions
-  (add-to-list 'auto-mode-alist '("\.m$" . wolfram-mode))
-  ;; Set PDFView mode from pdf-tools as default to pdf files
-  (add-hook 'emacs-startup-hook 'pdf-tools-install)
-  (add-to-list 'auto-mode-alist '("\.pdf$" . pdf-view-mode))
-;; Python mode hook - enable elpy
-  (add-hook 'python-mode-hook #'elpy-mode)
-
-;; Org-Noter
-
-
-  (global-set-key (kbd "C-c C-n") (quote org-noter))
-    (setq org-noter-default-notes-file-names (quote ("pdfnotes.org")))
-    (setq org-noter-doc-property-in-notes t)
-    (setq org-noter-notes-search-path (quote ("~/coisas/matematicasdavida/minhascoisas/org")))
-
-;; Org-Brain
-
-
-      (global-set-key (kbd "C-c C-b") (quote org-brain-visualize))
-      (setq org-brain-path "~/coisas/matematicasdavida/minhascoisas/org/")
-
-
-      ;; Ace Window
-
-      (global-set-key [remap other-window] 'ace-window)
-      (custom-set-faces
-       '(aw-leading-char-face
-         ((t (:inherit ace-jump-face-foreground :height 2.0)))))
-      (global-set-key (kbd "C-x o") (quote ace-window))
-
-      ;; Avy
-
-    (avy-setup-default)
-    (setq avy-all-windows t)
-    (global-set-key (kbd "M-n w") (quote avy-goto-word-0)) ;; Navigate to word
-    (global-set-key (kbd "M-n l") (quote avy-goto-line)) ;; Navigate ro line
-    (global-set-key (kbd "M-n c r") (quote avy-kill-ring-save-region))
-    (global-set-key (kbd "M-n k r") (quote avy-kill-region))
-
-
-    ;; Support for multiple eshell instances
-
-  (defun eshell-new()
-    "Open a new instance of eshell."
-    (interactive)
-    (eshell 'N)
-    )
-
-  ;; Support for Windows Browser
-
-  (defun browse-url-ariel (url &optional _new-window)
-    "Function to open url on windows google chrome browser
-          - compatible with browse-url
-          - useful for wsl users"
-    (interactive "s")
-    (shell-command
-     (concat
-      (concat
-       "\"/mnt/c/Program Files (x86)/Google/Chrome/Application/chrome.exe\"" " ") url ))
-    )
-
-  (setq browse-url-browser-function 'browse-url-ariel)
-
-;; ESS SETUP - Got from github
-
-(setq-default ess-dialect "R")
-(setq-default inferior-R-args "--no-restore-history --no-save ")
-
-(defadvice ess-eval-buffer (before really-eval-buffer compile activate)
-  "Prevent call ess-eval-buffer by accident, frequently by
-   hitting C-c C-b instead of C-c C-n."
-  (if (yes-or-no-p
-       (format "Are you sure you want to evaluate the %s buffer?"
-               buffer-file-name))
-      (message "ess-eval-buffer started.")
-    (error "ess-eval-buffer canceled!")))
-
-(add-hook
- 'ess-mode-hook
- '(lambda()
-    (ess-toggle-underscore nil)
-    (define-key ess-mode-map [?\M--]
-      'ess-cycle-assign) ;; `Alt + -'  to cycle `<- | <<- | = ...'.
-    (auto-complete-mode 1)
-    (company-mode 1)                               ;; (company-mode -1)
-    (define-key ess-mode-map (kbd "C-c C-t e") (quote ess-rdired))
-    (define-key ess-mode-map [f5] 'company-R-args) ;; F5 do show ARGS.
-    (setq ess-indent-with-fancy-comments nil) ;; No indent levels.
-    (setq-local comment-add 0)                ;; Single # as default.
-    (setq ess-smart-operators t)              ;; Smart comma.
-    (setq comint-scroll-to-bottom-on-input t)
-    (setq comint-scroll-to-bottom-on-output t)
-    (setq comint-move-point-for-output t)))
-
-;; Script and console font lock highlight.
-(setq ess-R-font-lock-keywords
-      '((ess-R-fl-keyword:modifiers . t)
-        (ess-R-fl-keyword:fun-defs . t)
-        (ess-R-fl-keyword:keywords . t)
-        (ess-R-fl-keyword:assign-ops . t)
-        (ess-R-fl-keyword:constants . t)
-        (ess-fl-keyword:fun-calls . t)
-        (ess-fl-keyword:numbers . t)
-        (ess-fl-keyword:operators . t)
-        (ess-fl-keyword:delimiters . t)
-        (ess-fl-keyword:= . t)
-        (ess-R-fl-keyword:F&T . t)))
-(setq inferior-R-font-lock-keywords
-      '((ess-S-fl-keyword:prompt . t)
-        (ess-R-fl-keyword:messages . t)
-        (ess-R-fl-keyword:modifiers . t)
-        (ess-R-fl-keyword:fun-defs . t)
-        (ess-R-fl-keyword:keywords . t)
-        (ess-R-fl-keyword:assign-ops . t)
-        (ess-R-fl-keyword:constants . t)
-        (ess-fl-keyword:matrix-labels . t)
-        (ess-fl-keyword:fun-calls . t)
-        (ess-fl-keyword:numbers . t)
-        (ess-fl-keyword:operators . t)
-        (ess-fl-keyword:delimiters . t)
-        (ess-fl-keyword:= . t)
-        (ess-R-fl-keyword:F&T . t)))
-
-;; Support for markdown
-
-
-(defun rmd-mode ()
-  "ESS Markdown mode for rmd files"
-  (interactive)
-  (setq load-path
-        (append (list "path/to/polymode/" "path/to/polymode/modes/")
-                load-path))
-  (require 'poly-R)
-  (require 'poly-markdown)
-  (poly-markdown+r-mode))
-
-;;goto wolfram docs
-
-(defun goto-wolfram-documentation ()
-  (interactive)
-  (browse-url "https://reference.wolfram.com/language/"))
-
-(defun search-wolfram-documentation ()
-  (interactive)
-  (browse-url (concat "https://reference.wolfram.com/search/"
-                      (concat "?q=" (read-string "What do you want to search for? "))))
-  )
-
-
- ;; ;; org-bullets
- (use-package org-bullets
-   :ensure t)
- (add-hook 'org-mode-hook 'org-bullets-mode)
-
-;;; Some Variables
-
-(setq TeX-view-program-selection
-      (quote (
-              ((output-dvi has-no-display-manager) "PDF Tools")
-              ((output-dvi style-pstricks) "PDF Tools")
-              (output-dvi "PDF Tools")
-              (output-pdf "PDF Tools")
-              (output-html "PDF Tools"))))
-(setq bibtex-completion-notes-path "~/coisas/matematicasdavida/minhascoisas/org/pdfnotes.org")
-(setq bibtex-completion-pdf-field "nil")
-
-(setq org-modules (quote
-   (org-bbdb org-bibtex org-docview org-eww org-gnus org-habit org-info org-irc org-mhe org-rmail org-w3m org-notify)))
-
-
-(setq org-babel-load-languages (quote
-                                ((python . t)
-                                 (emacs-lisp . t)
-                                 (R . t))))
-
-(setq org-ref-default-bibliography (quote
-                                    ("~/coisas/matematicasdavida/Livros/library.bib")))
-(setq org-ref-get-pdf-filename-function (quote org-ref-get-mendeley-filename))
-
-(setq reftex-default-bibliography (quote
-                                            ("~/coisas/matematicasdavida/Livros/library.bib")))
-
-(setq rmh-elfeed-org-files(quote
-                           ("~/coisas/matematicasdavida/minhascoisas/org/rssfeeds.org")))
-
-(setq org-todo-keyword-faces (quote
-   (("Idea" . "White")
-    ("MissingRequirement" . "yellow")
-    ("DONE" . "green")
-    ("Cancelled" . "forest green")
-    ("HugeObstacle" . "red")
-    ("TODO" . "magenta"))))
-(setq org-habit-preceding-days 7)
-(setq org-habit-show-all-today t)
-(setq org-habit-show-done-always-green t))
+)
 
 
 
@@ -714,104 +512,9 @@ This function is called at the very end of Spacemacs initialization."
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(browse-url-browser-function 'browse-url-ariel)
- '(browse-url-chrome-program
-   "/mnt/c/Program\\ Files\\ \\(x86\\)/Google/Chrome/Application/chrome.exe")
- '(elpy-rpc-python-command "python3")
- '(org-agenda-files
-   '("~/coisas/matematicasdavida/minhascoisas/org/application.org" "~/coisas/matematicasdavida/minhascoisas/org/personal.org" "~/coisas/matematicasdavida/minhascoisas/org/academic.org"))
- '(org-capture-templates
-   '(("a" "Appointment" entry
-      (file+olp "~/coisas/matematicasdavida/minhascoisas/org/personal.org" "External Communication" "Appointments")
-      "")
-     ("r" "Talk to" entry
-      (file+olp "~/coisas/matematicasdavida/minhascoisas/org/personal.org" "External Communication" "Talk to")
-      "")
-     ("b" "Blog idea" entry
-      (file+olp "~/coisas/matematicasdavida/minhascoisas/org/application.org" "Build/Improve Website" "Add Content")
-      "
-" :prepend t)
-     ("t" "Task" entry
-      (file+headline "~/coisas/matematicasdavida/minhascoisas/org/notes.org" "Captured Tasks")
-      "
-")
-     ("n" "Note" entry
-      (file+headline "~/coisas/matematicasdavida/minhascoisas/org/notes.org" "Notespace")
-      "
-")
-     ("p" "Project" entry
-      (file+olp "~/coisas/matematicasdavida/minhascoisas/org/notes.org" "Captured Projects")
-      "")))
- '(org-modules
-   '(org-bbdb org-bibtex org-docview org-eww org-gnus org-habit org-info org-irc org-mhe org-rmail org-w3m org-notify))
- '(org-ref-get-pdf-filename-function 'org-ref-get-pdf-filename-helm-bibtex)
- '(org-startup-align-all-tables t)
- '(org-todo-keyword-faces
-   '(("Idea" . "White")
-     ("MissingRequirement" . "yellow")
-     ("DONE" . "green")
-     ("Cancelled" . "forest green")
-     ("HugeObstacle" . "red")
-     ("TODO" . "magenta")))
- ;'(org-trello-current-prefix-keybinding "C-c o")
- '(orgtbl-optimized t)
+ ;; If there is more than on, they won't work right.
  '(package-selected-packages
-   '(org-pdftools insert-shebang fish-mode company-shell bibtex-completion request-deferred atomic-chrome org-edna powershell web-beautify livid-mode json-mode json-snatcher json-reformat js2-refactor multiple-cursors js-doc tern coffee-mode org-trello csv-mode magit-section org-ql peg ov org-super-agenda ts ht try org-caldav toml-mode racer pos-tip cargo rust-mode wgrep smex ivy-hydra flyspell-correct-ivy counsel-projectile counsel org-gcal org-bullets orgit org-category-capture org-plus-contrib projectile pkg-info epl flx evil goto-chg undo-tree polymode bind-key packed helm avy helm-core async popup workgroups2 anaphora rainbow-delimiters org-brain elpy highlight-indentation org-ref key-chord ivy lv helm-bibtex parsebib ess-smart-equals ess-R-data-view ctable engine-mode biblio biblio-core swiper elfeed-web elfeed-org elfeed-goodies ace-jump-mode noflet powerline popwin elfeed pdf-tools tablist org-noter zenburn-theme zen-and-art-theme white-sand-theme underwater-theme ujelly-theme twilight-theme twilight-bright-theme twilight-anti-bright-theme toxi-theme tao-theme tangotango-theme tango-plus-theme tango-2-theme sunny-day-theme sublime-themes subatomic256-theme subatomic-theme spacegray-theme soothe-theme solarized-theme soft-stone-theme soft-morning-theme soft-charcoal-theme smyx-theme seti-theme reverse-theme rebecca-theme railscasts-theme purple-haze-theme professional-theme planet-theme phoenix-dark-pink-theme phoenix-dark-mono-theme organic-green-theme omtose-phellack-theme oldlace-theme occidental-theme obsidian-theme noctilux-theme naquadah-theme mustang-theme monokai-theme monochrome-theme molokai-theme moe-theme minimal-theme material-theme majapahit-theme madhat2r-theme lush-theme light-soap-theme jbeans-theme jazz-theme ir-black-theme inkpot-theme heroku-theme hemisu-theme hc-zenburn-theme gruvbox-theme gruber-darker-theme grandshell-theme gotham-theme gandalf-theme flatui-theme flatland-theme farmhouse-theme exotica-theme espresso-theme dracula-theme django-theme darktooth-theme autothemer darkokai-theme darkmine-theme darkburn-theme dakrone-theme cyberpunk-theme color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized clues-theme cherry-blossom-theme busybee-theme bubbleberry-theme birds-of-paradise-plus-theme badwolf-theme apropospriate-theme anti-zenburn-theme ample-zen-theme ample-theme alect-themes afternoon-theme flyspell-correct-helm flyspell-correct auto-dictionary wolfram-mode pocket-lib kv ess julia-mode pocket-mode pocket-api gmail-message-mode ham-mode html-to-markdown flymd edit-server yapfify xterm-color smeargle shell-pop pyvenv pytest pyenv-mode py-isort pip-requirements rg-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download multi-term mmm-mode markdown-toc markdown-mode magit-gitflow magit-popup live-py-mode hy-mode dash-functional htmlize helm-pydoc helm-gitignore helm-company gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md fuzzy evil-magit magit transient git-commit with-editor eshell-z eshell-prompt-extras esh-help ein skewer-mode deferred request websocket js2-mode simple-httpd disaster cython-mode company-statistics company-c-headers company-auctex company-anaconda company cmake-mode clang-format auctex-latexmk auctex anaconda-mode pythonic f dash s ac-ispell auto-complete which-key use-package pcre2el macrostep hydra helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-flx helm-descbinds helm-ag exec-path-from-shell evil-visualstar evil-escape elisp-slime-nav diminish bind-map auto-compile ace-window ace-jump-helm-line))
- '(rmh-elfeed-org-files
-   '("~/coisas/matematicasdavida/minhascoisas/org/rssfeeds.org") t)
- '(wolfram-path "/mnt/c/Ariel/")
- '(wolfram-program
-   "/mnt/c/Program-Files/Wolfram-Research/Mathematica/12.0/math.exe")
- '(wolfram-program-2
-   "/mnt/c/Program-Files/Wolfram-Research/Mathematica/12.0/math.exe"))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(aw-leading-char-face ((t (:inherit ace-jump-face-foreground :height 2.0))))))
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(ansi-color-names-vector
-   ["#0a0814" "#f2241f" "#67b11d" "#b1951d" "#4f97d7" "#a31db1" "#28def0" "#b2b2b2"])
- '(blink-cursor-mode nil)
- '(browse-url-browser-function (quote browse-url-ariel))
- '(column-number-mode t)
- '(custom-safe-themes
-   (quote
-    ("bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" default)))
- '(display-battery-mode t)
- '(evil-want-Y-yank-to-eol nil)
- '(font-use-system-font t)
- '(global-tab-line-mode nil)
- '(mu4e-attachment-dir "/mnt/c/Ariel/Desktop")
- '(mu4e-user-mail-address-list (quote ("arielserranoni@gmail.com" "ariel@ime.usp.br")))
- '(org-babel-python-command "python3")
- '(org-babel-results-keyword "OUTPUT")
- '(org-bullets-bullet-list (quote ("✸" "►" "◉" "✿" "◇" "○")))
- '(org-file-apps
-   (quote
-    ((auto-mode . emacs)
-     ("\\.mm\\'" . default)
-     ("\\.x?html?\\'" . browse-url-ariel)
-     ("\\.pdf\\'" . emacs))))
- '(org-trello-current-prefix-keybinding "C-c o" nil (org-trello))
- '(package-selected-packages
-   (quote
-    (company-tabnine unicode-escape names mu4e-maildirs-extension mu4e-alert py-yapf org-repo-todo jade-mode helm-pydoc helm-gitignore helm-css-scss helm-company helm-c-yasnippet company-racer company-quickhelp window-numbering smooth-scrolling leuven-theme ido-vertical-mode buffer-move bracketed-paste quelpa package-build powershell arduino-mode page-break-lines workgroups emoji-github toml-mode racer pos-tip cargo rust-mode web-mode tagedit slim-mode scss-mode sass-mode pug-mode haml-mode emmet-mode company-web web-completion-data counsel-tramp ht mixed-pitch cl-lib ws-butler winum volatile-highlights vi-tilde-fringe uuidgen toc-org spaceline restart-emacs persp-mode paradox spinner org-plus-contrib open-junk-file neotree move-text lorem-ipsum linum-relative link-hint indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode helm-themes helm-swoop helm-projectile helm-mode-manager helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido fill-column-indicator fancy-battery eyebrowse expand-region evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist highlight evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-ediff evil-args evil-anzu anzu eval-sexp-fu dumb-jump define-word column-enforce-mode clean-aindent-mode auto-highlight-symbol aggressive-indent adaptive-wrap ace-link ace-jump-helm-line yapfify xterm-color workgroups2 wolfram-mode which-key wgrep use-package smex smeargle shell-pop rainbow-delimiters pytest pyenv-mode py-isort pip-requirements pcre2el orgit org-trello request-deferred org-ref pdf-tools key-chord tablist org-present org-pomodoro alert log4e gntp org-noter org-mime org-download org-bullets org-brain multi-term mmm-mode markdown-toc markdown-mode magit-gitflow magit-popup macrostep live-py-mode ivy-hydra insert-shebang hydra lv hy-mode dash-functional htmlize helm-make helm-bibtex helm bibtex-completion parsebib helm-core gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md fuzzy flx fish-mode evil-visualstar evil-magit magit git-commit transient evil-escape evil goto-chg undo-tree ess-smart-equals ess-R-data-view ctable ess eshell-z eshell-prompt-extras esh-help engine-mode elpy pyvenv highlight-indentation elisp-slime-nav elfeed-web simple-httpd elfeed-org elfeed-goodies ace-jump-mode noflet powerline popwin elfeed ein with-editor exec-path-from-shell polymode deferred request anaphora websocket disaster diminish cython-mode csv-mode counsel-projectile projectile pkg-info epl counsel swiper ivy company-statistics company-shell company-c-headers company-auctex company-anaconda company cmake-mode clang-format bind-map bind-key biblio biblio-core auto-yasnippet yasnippet auto-compile packed auctex-latexmk auctex async anaconda-mode pythonic f dash s ace-window avy ac-ispell auto-complete popup)))
- '(python-shell-interpreter "python3")
- '(send-mail-function (quote smtpmail-send-it))
- '(smtpmail-smtp-server "smtp.gmail.com")
- '(smtpmail-smtp-service 587)
- '(tab-bar-close-button-show nil)
- '(tab-bar-show nil)
- '(wolfram-path "/mnt/c/Users/Ariel")
- '(wolfram-program
-   "\"/mnt/c/Program-Files/Wolfram-Research/Mathematica/12.0/math.exe\""))
+   '(org-pdftools insert-shebang fish-mode company-shell bibtex-completion request-deferred atomic-chrome org-edna powershell web-beautify livid-mode json-mode json-snatcher json-reformat js2-refactor multiple-cursors js-doc tern coffee-mode csv-mode magit-section org-ql peg ov org-super-agenda ts ht try org-caldav toml-mode racer pos-tip cargo rust-mode wgrep smex ivy-hydra flyspell-correct-ivy counsel-projectile counsel org-gcal org-bullets orgit org-category-capture org-plus-contrib projectile pkg-info epl flx evil goto-chg undo-tree polymode bind-key packed helm avy helm-core async popup workgroups2 anaphora rainbow-delimiters org-brain elpy highlight-indentation org-ref key-chord ivy lv helm-bibtex parsebib ess-smart-equals ess-R-data-view ctable engine-mode biblio biblio-core swiper elfeed-web elfeed-org elfeed-goodies ace-jump-mode noflet powerline popwin elfeed pdf-tools tablist org-noter zenburn-theme zen-and-art-theme white-sand-theme underwater-theme ujelly-theme twilight-theme twilight-bright-theme twilight-anti-bright-theme toxi-theme tao-theme tangotango-theme tango-plus-theme tango-2-theme sunny-day-theme sublime-themes subatomic256-theme subatomic-theme spacegray-theme soothe-theme solarized-theme soft-stone-theme soft-morning-theme soft-charcoal-theme smyx-theme seti-theme reverse-theme rebecca-theme railscasts-theme purple-haze-theme professional-theme planet-theme phoenix-dark-pink-theme phoenix-dark-mono-theme organic-green-theme omtose-phellack-theme oldlace-theme occidental-theme obsidian-theme noctilux-theme naquadah-theme mustang-theme monokai-theme monochrome-theme molokai-theme moe-theme minimal-theme material-theme majapahit-theme madhat2r-theme lush-theme light-soap-theme jbeans-theme jazz-theme ir-black-theme inkpot-theme heroku-theme hemisu-theme hc-zenburn-theme gruvbox-theme gruber-darker-theme grandshell-theme gotham-theme gandalf-theme flatui-theme flatland-theme farmhouse-theme exotica-theme espresso-theme dracula-theme django-theme darktooth-theme autothemer darkokai-theme darkmine-theme darkburn-theme dakrone-theme cyberpunk-theme color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized clues-theme cherry-blossom-theme busybee-theme bubbleberry-theme birds-of-paradise-plus-theme badwolf-theme apropospriate-theme anti-zenburn-theme ample-zen-theme ample-theme alect-themes afternoon-theme flyspell-correct-helm flyspell-correct auto-dictionary wolfram-mode pocket-lib kv ess julia-mode pocket-mode pocket-api gmail-message-mode ham-mode html-to-markdown flymd edit-server yapfify xterm-color smeargle shell-pop pyvenv pytest pyenv-mode py-isort pip-requirements rg-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download multi-term mmm-mode markdown-toc markdown-mode magit-gitflow magit-popup live-py-mode hy-mode dash-functional htmlize helm-pydoc helm-gitignore helm-company gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md fuzzy evil-magit magit transient git-commit with-editor eshell-z eshell-prompt-extras esh-help ein skewer-mode deferred request websocket js2-mode simple-httpd disaster cython-mode company-statistics company-c-headers company-auctex company-anaconda company cmake-mode clang-format auctex-latexmk auctex anaconda-mode pythonic f dash s ac-ispell auto-complete which-key use-package pcre2el macrostep hydra helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-flx helm-descbinds helm-ag exec-path-from-shell evil-visualstar evil-escape elisp-slime-nav diminish bind-map auto-compile ace-window ace-jump-helm-line))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
