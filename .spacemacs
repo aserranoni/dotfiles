@@ -105,6 +105,7 @@ This function should only modify configuration layer settings."
 
    ;; A list of packages that will not be installed and loaded.
    dotspacemacs-excluded-packages '(font-lock+
+                                    ess-R-object-popup
                                     org-plus-contrib
                                     org-projectile)
 
