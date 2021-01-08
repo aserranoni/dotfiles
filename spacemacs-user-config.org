@@ -83,58 +83,69 @@
 * Org-Mode Configuration
 ** Defaults
    #+begin_src emacs-lisp
-                 ;; Align Tables at startup
+                                              ;; Align Tables at startup
 
-                   (setq org-startup-align-all-tables t)
+                                                (setq org-startup-align-all-tables t)
 
-               ;; org-capture templates
+                                            ;; org-capture templates
 
-                            (setq org-capture-templates
-                              '(("a" "Appointment" entry
-                                 (file+olp "~/coisas/matematicasdavida/minhascoisas/org/personal.org" "External Communication" "Appointments")
-                                 "")
-                                ("r" "Talk to" entry
-                                 (file+olp "~/coisas/matematicasdavida/minhascoisas/org/personal.org" "External Communication" "Talk to")
-                                 "")
-                                ("b" "Blog idea" entry
-                                 (file+olp "~/coisas/matematicasdavida/minhascoisas/org/application.org" "Build/Improve Website" "Add Content")
-                                 "
-                            " :prepend t)
-                                ("t" "Task" entry
-                                 (file+headline "~/coisas/matematicasdavida/minhascoisas/org/notes.org" "Captured Tasks")
-                                 "
-                            ")
-                                ("n" "Note" entry
-                                 (file+headline "~/coisas/matematicasdavida/minhascoisas/org/notes.org" "Notespace")
-                                 "
-                            ")
-                                ("p" "Project" entry
-                                 (file+olp "~/coisas/matematicasdavida/minhascoisas/org/notes.org" "Captured Projects")
-                                 "")))
+                                                         (setq org-capture-templates
+                                                           '(("a" "Appointment" entry
+                                                              (file+olp "~/coisas/matematicasdavida/minhascoisas/org/personal.org" "External Communication" "Appointments")
+                                                              "")
+                                                             ("r" "Talk to" entry
+                                                              (file+olp "~/coisas/matematicasdavida/minhascoisas/org/personal.org" "External Communication" "Talk to")
+                                                              "")
+                                                             ("b" "Blog idea" entry
+                                                              (file+olp "~/coisas/matematicasdavida/minhascoisas/org/application.org" "Build/Improve Website" "Add Content")
+                                                              "
+                                                         " :prepend t)
+                                                             ("t" "Task" entry
+                                                              (file+headline "~/coisas/matematicasdavida/minhascoisas/org/notes.org" "Captured Tasks")
+                                                              "
+                                                         ")
+                                                             ("n" "Note" entry
+                                                              (file+headline "~/coisas/matematicasdavida/minhascoisas/org/notes.org" "Notespace")
+                                                              "
+                                                         ")
+                                                             ("p" "Project" entry
+                                                              (file+olp "~/coisas/matematicasdavida/minhascoisas/org/notes.org" "Captured Projects")
+                                                              "")))
 
-          ;; active built-in modules
-                           (setq org-modules
-                       '(org-bbdb
-                         org-bibtex
-                         org-docview
-                         org-eww
-                         org-gnus
-                         org-habit
-                         org-info
-                         org-irc
-                         org-mhe
-                         org-rmail
-                         org-w3m
-                         org-notify)
-                       )
+                                       ;; active built-in modules
+                                                        (setq org-modules
+                                                    '(org-bbdb
+                                                      org-bibtex
+                                                      org-docview
+                                                      org-eww
+                                                      org-gnus
+                                                      org-habit
+                                                      org-info
+                                                      org-irc
+                                                      org-mhe
+                                                      org-rmail
+                                                      org-w3m
+                                                      org-notify)
+                                                    )
 
-       ;; org-habit configuration
+                                    ;; org-habit configuration
 
-                     (setq org-habit-preceding-days 7)
-                     (setq org-habit-show-all-today t)
-                     (setq org-habit-show-done-always-green t)
+                                                  (setq org-habit-preceding-days 7)
+                                                  (setq org-habit-show-all-today t)
+                                                  (setq org-habit-show-done-always-green t)
 
-     ;; TODO: SET DEFAULT TODO KEYWORDS
+
+                                   ;; todo keywords
+
+                                    (setq org-todo-keywords
+                                    '((sequence "TODO(n)"
+                                                "Idea(i)"
+                                                "InProgress(p)"
+                                                "MissingRequirement(r@)"
+                                                "HugeObstacle(h@)"
+                                                "|"
+                                                "DONE(f@)"
+                                                "Cancelled(c@)")))
 
    #+end_src
 
@@ -194,149 +205,75 @@
                    (setq org-ref-get-pdf-filename-function (quote org-ref-get-mendeley-filename))
 #+end_src
 * Left to organize
-  
+** Wolfram Mode  
 #+begin_src emacs-lisp
 
 
-                   ;; Set wolfram mode for .m files - include other wolfram extensions
-                     (add-to-list 'auto-mode-alist '("\.m$" . wolfram-mode))
+      ;; Set wolfram mode for .m files - include other wolfram extensions
+        (add-to-list 'auto-mode-alist '("\.m$" . wolfram-mode))
 
-                     ;; Set PDFView mode from pdf-tools as default to pdf files
-                     (add-hook 'emacs-startup-hook 'pdf-tools-install)
-                     (add-to-list 'auto-mode-alist '("\.pdf$" . pdf-view-mode))
-                   ;; Python mode hook - enable elpy
-                     (add-hook 'python-mode-hook #'elpy-mode)
-
-
+        ;; Set PDFView mode from pdf-tools as default to pdf files
+        (add-hook 'emacs-startup-hook 'pdf-tools-install)
+        (add-to-list 'auto-mode-alist '("\.pdf$" . pdf-view-mode))
+      ;; Python mode hook - enable elpy
+        (add-hook 'python-mode-hook #'elpy-mode)
 
 
+                                            ;;
+                                                                                                                         ;;
+ (setq-default ess-dialect "R")                                                                                          ;;
+ (setq-default inferior-R-args "--no-restore-history --no-save ")                                                        ;;
+                                                                                                                              ;;
 
+  ; ;;goto wolfram docs                                                                                                     ;;
+                                                                                                                                    ;;
+   (defun goto-wolfram-documentation ()                                                                                    ;;
+        (interactive)                                                                                                         ;;
+        (browse-url "https://reference.wolfram.com/language/"))                                                               ;;
+                                                                                                                               ;;
+       (defun search-wolfram-documentation ()                                                                                  ;;
+         (interactive)                                                                                                         ;;
+         (browse-url (concat "https://reference.wolfram.com/search/"                                                           ;;
+                             (concat "?q=" (read-string "What do you want to search for? "))))                                 ;;
+              )                                                                                                                     ;;
+      ;; ;;                                                                                                                         ;;
+      ;; ;;                                                                                                                         ;;
 
+      ;; ;;                                                                                                                         ;;
+      ;; ;; ;;; Some Variables                                                                                                      ;;
+                                                                                                                                    ;;
+       (setq TeX-view-program-selection                                                                                        ;;
+             (quote (                                                                                                          ;;
+                      ((output-dvi has-no-display-manager) "PDF Tools")                                                         ;;
+                     ((output-dvi style-pstricks) "PDF Tools")                                                                 ;;
+                     (output-dvi "PDF Tools")                                                                                  ;;
+                     (output-pdf "PDF Tools")                                                                                  ;;
+                     (output-html "PDF Tools"))))                                                                              ;;
+       (setq bibtex-completion-notes-path "~/coisas/matematicasdavida/minhascoisas/org/pdfnotes.org")                          ;;
+       (setq bibtex-completion-pdf-field "nil")                                                                                ;;
+                                                                                                                               ;;
 
-
-                   ;; ;; ESS SETUP - Got from github                                                                                          ;;
-                   ;;                                                                                                                         ;;
-                   ;; (setq-default ess-dialect "R")                                                                                          ;;
-                   ;; (setq-default inferior-R-args "--no-restore-history --no-save ")                                                        ;;
-                   ;;                                                                                                                         ;;
-                   ;; (defadvice ess-eval-buffer (before really-eval-buffer compile activate)                                                 ;;
-                   ;;   "Prevent call ess-eval-buffer by accident, frequently by                                                              ;;
-                   ;;    hitting C-c C-b instead of C-c C-n."                                                                                 ;;
-                   ;;   (if (yes-or-no-p                                                                                                      ;;
-                   ;;        (format "Are you sure you want to evaluate the %s buffer?"                                                       ;;
-                   ;;                buffer-file-name))                                                                                       ;;
-                   ;;       (message "ess-eval-buffer started.")                                                                              ;;
-                   ;;     (error "ess-eval-buffer canceled!")))                                                                               ;;
-                   ;;                                                                                                                         ;;
-                   ;; (add-hook                                                                                                               ;;
-                   ;;  'ess-mode-hook                                                                                                         ;;
-                   ;;  '(lambda()                                                                                                             ;;
-                   ;;     (ess-toggle-underscore nil)                                                                                         ;;
-                   ;;     (define-key ess-mode-map [?\M--]                                                                                    ;;
-                   ;;       'ess-cycle-assign) ;; `Alt + -'  to cycle `<- | <<- | = ...'.                                                     ;;
-                   ;;     (auto-complete-mode 1)                                                                                              ;;
-                   ;;     (company-mode 1)                               ;; (company-mode -1)                                                 ;;
-                   ;;     (define-key ess-mode-map (kbd "C-c C-t e") (quote ess-rdired))                                                      ;;
-                   ;;     (define-key ess-mode-map [f5] 'company-R-args) ;; F5 do show ARGS.                                                  ;;
-                   ;;     (setq ess-indent-with-fancy-comments nil) ;; No indent levels.                                                      ;;
-                   ;;     (setq-local comment-add 0)                ;; Single # as default.                                                   ;;
-                   ;;     (setq ess-smart-operators t)              ;; Smart comma.                                                           ;;
-                   ;;     (setq comint-scroll-to-bottom-on-input t)                                                                           ;;
-                   ;;     (setq comint-scroll-to-bottom-on-output t)                                                                          ;;
-                   ;;     (setq comint-move-point-for-output t)                                                                               ;;
-                   ;;                                                                                                                         ;;
-                   ;; ;; Script and console font lock highlight.                                                                              ;;
-                   ;; (setq ess-R-font-lock-keywords                                                                                          ;;
-                   ;;       '((ess-R-fl-keyword:modifiers . t)                                                                                ;;
-                   ;;         (ess-R-fl-keyword:fun-defs . t)                                                                                 ;;
-                   ;;         (ess-R-fl-keyword:keywords . t)                                                                                 ;;
-                   ;;         (ess-R-fl-keyword:assign-ops . t)                                                                               ;;
-                   ;;         (ess-R-fl-keyword:constants . t)                                                                                ;;
-                   ;;         (ess-fl-keyword:fun-calls . t)                                                                                  ;;
-                   ;;         (ess-fl-keyword:numbers . t)                                                                                    ;;
-                   ;;         (ess-fl-keyword:operators . t)                                                                                  ;;
-                   ;;         (ess-fl-keyword:delimiters . t)                                                                                 ;;
-                   ;;         (ess-fl-keyword:= . t)                                                                                          ;;
-                   ;;         (ess-R-fl-keyword:F&T . t)))                                                                                    ;;
-                   ;; (setq inferior-R-font-lock-keywords                                                                                     ;;
-                   ;;       '((ess-S-fl-keyword:prompt . t)                                                                                   ;;
-                   ;;         (ess-R-fl-keyword:messages . t)                                                                                 ;;
-                   ;;         (ess-R-fl-keyword:modifiers . t)                                                                                ;;
-                   ;;         (ess-R-fl-keyword:fun-defs . t)                                                                                 ;;
-                   ;;         (ess-R-fl-keyword:keywords . t)                                                                                 ;;
-                   ;;         (ess-R-fl-keyword:assign-ops . t)                                                                               ;;
-                   ;;         (ess-R-fl-keyword:constants . t)                                                                                ;;
-                   ;;         (ess-fl-keyword:matrix-labels . t)                                                                              ;;
-                   ;;         (ess-fl-keyword:fun-calls . t)                                                                                  ;;
-                   ;;         (ess-fl-keyword:numbers . t)                                                                                    ;;
-                   ;;         (ess-fl-keyword:operators . t)                                                                                  ;;
-                   ;;         (ess-fl-keyword:delimiters . t)                                                                                 ;;
-                   ;;         (ess-fl-keyword:= . t)                                                                                          ;;
-                   ;;         (ess-R-fl-keyword:F&T . t)))                                                                                    ;;
-                   ;;                                                                                                                         ;;
-                   ;; ;; Support for markdown                                                                                                 ;;
-                   ;;                                                                                                                         ;;
-                   ;;                                                                                                                         ;;
-                   ;; (defun rmd-mode ()                                                                                                      ;;
-                   ;;   "ESS Markdown mode for rmd files"                                                                                     ;;
-                   ;;   (interactive)                                                                                                         ;;
-                   ;;   (setq load-path                                                                                                       ;;
-                   ;;         (append (list "path/to/polymode/" "path/to/polymode/modes/")                                                    ;;
-                   ;;                 load-path))                                                                                             ;;
-                   ;;   (require 'poly-R)                                                                                                     ;;
-                   ;;   (require 'poly-markdown)                                                                                              ;;
-                   ;;   (poly-markdown+r-mode))                                                                                               ;;
-                   ;;                                                                                                                         ;;
-
-               ;;; ; ;;goto wolfram docs                                                                                                     ;;
-                                                                                                                                                 ;;
-                (defun goto-wolfram-documentation ()                                                                                    ;;
-                     (interactive)                                                                                                         ;;
-                     (browse-url "https://reference.wolfram.com/language/"))                                                               ;;
-                                                                                                                                            ;;
-                    (defun search-wolfram-documentation ()                                                                                  ;;
-                      (interactive)                                                                                                         ;;
-                      (browse-url (concat "https://reference.wolfram.com/search/"                                                           ;;
-                                          (concat "?q=" (read-string "What do you want to search for? "))))                                 ;;
-                           )                                                                                                                     ;;
-                   ;; ;;                                                                                                                         ;;
-                   ;; ;;                                                                                                                         ;;
-
-                   ;; ;;                                                                                                                         ;;
-                   ;; ;; ;;; Some Variables                                                                                                      ;;
-                                                                                                                                                 ;;
-                    (setq TeX-view-program-selection                                                                                        ;;
-                          (quote (                                                                                                          ;;
-                                   ((output-dvi has-no-display-manager) "PDF Tools")                                                         ;;
-                                  ((output-dvi style-pstricks) "PDF Tools")                                                                 ;;
-                                  (output-dvi "PDF Tools")                                                                                  ;;
-                                  (output-pdf "PDF Tools")                                                                                  ;;
-                                  (output-html "PDF Tools"))))                                                                              ;;
-                    (setq bibtex-completion-notes-path "~/coisas/matematicasdavida/minhascoisas/org/pdfnotes.org")                          ;;
-                    (setq bibtex-completion-pdf-field "nil")                                                                                ;;
-                                                                                                                                            ;;
-
-                   ;; ;; ;; Python                                                                                                               ;;
-                                                                                                                                            ;;
-                         (setq elpy-rpc-python-command "python3")                                                                                ;;
-                         (setq python-shell-interpreter "python3")
+      ;; ;; ;; Python                                                                                                               ;;
+                                                                                                                               ;;
+            (setq elpy-rpc-python-command "python3")                                                                                ;;
+            (setq python-shell-interpreter "python3")
 
 
 
 
-                   (setq reftex-default-bibliography (quote
-                                                               ("~/coisas/matematicasdavida/Livros/library.bib")))
+      (setq reftex-default-bibliography (quote
+                                                  ("~/coisas/matematicasdavida/Livros/library.bib")))
 
-                   (setq rmh-elfeed-org-files(quote
-                                              ("~/coisas/matematicasdavida/minhascoisas/org/rssfeeds.org")))
+      (setq rmh-elfeed-org-files(quote
+                                 ("~/coisas/matematicasdavida/minhascoisas/org/rssfeeds.org")))
 
 
 
-                   ;; wolfram-mode
+      ;; wolfram-mode
 
-                   (setq wolfram-path "/mnt/c/Ariel/")
-                   (setq wolfram-program
-                     "/mnt/c/Program-Files/Wolfram-Research/Mathematica/12.0/math.exe")
+      (setq wolfram-path "/mnt/c/Ariel/")
+      (setq wolfram-program
+        "/mnt/c/Program-Files/Wolfram-Research/Mathematica/12.0/math.exe")
 
       #+end_src
                    

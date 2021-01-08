@@ -480,7 +480,10 @@ This function is called immediately after `dotspacemacs/init', before layer
 configuration.
 It is mostly for variables that should be set before packages are loaded.
 If you are unsure, try setting them in `dotspacemacs/user-config' first."
-  )
+
+  ;; supress package cl deprecated warning at startup
+
+  (setq byte-complile-warnings '(not cl-functions)))
 
 (defun dotspacemacs/user-load ()
   "Library to load while dumping.
