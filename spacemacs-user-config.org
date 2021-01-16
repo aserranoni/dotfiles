@@ -1,23 +1,22 @@
 * Global Stuff
 
 #+begin_src emacs-lisp
-  ;; supress package cl deprecated warning at startup
+    ;; supress package cl deprecated warning at startup
 
-(setq byte-complile-warnings '(not cl-functions))
+  (setq byte-complile-warnings '(not cl-functions))
 
-   ;; Enable doom modeline, ivy rich  and undo-tree globally
+     ;; Enable doom modeline, ivy rich  and undo-tree globally
 
-   (doom-modeline-mode 1)
-   (global-undo-tree-mode)
-   (ivy-rich-mode)
+     (doom-modeline-mode 1)
+     (global-undo-tree-mode)
+     (ivy-rich-mode)-the-icons-ivy-rich-mode)
+     ;; Support multiple eshell instances
 
-   ;; Support multiple eshell instances
-
-   (defun eshell-new()
-     "Open a new instance of eshell."
-     (interactive)
-     (eshell 'N)
-     )
+     (defun eshell-new()
+       "Open a new instance of eshell."
+       (interactive)
+       (eshell 'N)
+       )
 
 #+end_src
 
@@ -25,15 +24,14 @@
 ** Some Keybindings
 #+begin_src emacs-lisp
 
-        ;; Extra custom keybindings
-          (global-set-key (kbd "C-x s") (quote eshell)) ; open eshell
-          (global-set-key (kbd "C-x C-2") (quote make-frame)) ;; open new frame
-          ;;(global-set-key (kbd "C-s") (quote helm-occur)) ;; Helm fancy search
-          (global-set-key (kbd "C-x w") (quote wg-open-workgroup)) ;; go-to workgroups
-          (global-set-key (kbd "C-c s") (quote engine/search-duck-duck-go)) ;; search the web
-          (global-set-key (kbd "C-c r") (quote rainbow-delimiters-mode)) ;; activate rainbow delimiters
-          (global-set-key (kbd "C-z") (quote undo-tree-visualize)) ;;use undo tree with reasonable shortcut
-
+      ;; Extra custom keybindings
+        (global-set-key (kbd "C-x s") (quote eshell)) ; open eshell
+        (global-set-key (kbd "C-x C-2") (quote make-frame)) ;; open new frame
+        ;;(global-set-key (kbd "C-s") (quote helm-occur)) ;; Helm fancy search
+        (global-set-key (kbd "C-x w") (quote wg-open-workgroup)) ;; go-to workgroups
+        (global-set-key (kbd "C-c s") (quote engine/search-duck-duck-go)) ;; search the web
+        (global-set-key (kbd "C-c r") (quote rainbow-delimiters-mode)) ;; activate rainbow delimiters
+        (global-set-key (kbd "C-z") (quote undo-tree-visualize)) ;;use undo tree with reasonable shortcut - NOT WORKING
  #+end_src
 
 ** Navigation
@@ -83,85 +81,89 @@
 * Org-Mode Configuration
 ** Defaults
    #+begin_src emacs-lisp
-                                              ;; Align Tables at startup
 
-                                                (setq org-startup-align-all-tables t)
+     ;; Align Tables and fold at startup
 
-                                            ;; org-capture templates
+                       (setq org-startup-align-all-tables t)
+                       (setq org-startup-folded t)
+                   ;; org-capture templates
 
-                                                         (setq org-capture-templates
-                                                           '(("a" "Appointment" entry
-                                                              (file+olp "~/coisas/matematicasdavida/minhascoisas/org/personal.org" "External Communication" "Appointments")
-                                                              "")
-                                                             ("r" "Talk to" entry
-                                                              (file+olp "~/coisas/matematicasdavida/minhascoisas/org/personal.org" "External Communication" "Talk to")
-                                                              "")
-                                                             ("b" "Blog idea" entry
-                                                              (file+olp "~/coisas/matematicasdavida/minhascoisas/org/application.org" "Build/Improve Website" "Add Content")
-                                                              "
-                                                         " :prepend t)
-                                                             ("t" "Task" entry
-                                                              (file+headline "~/coisas/matematicasdavida/minhascoisas/org/notes.org" "Captured Tasks")
-                                                              "
-                                                         ")
-                                                             ("n" "Note" entry
-                                                              (file+headline "~/coisas/matematicasdavida/minhascoisas/org/notes.org" "Notespace")
-                                                              "
-                                                         ")
-                                                             ("p" "Project" entry
-                                                              (file+olp "~/coisas/matematicasdavida/minhascoisas/org/notes.org" "Captured Projects")
-                                                              "")))
+                                (setq org-capture-templates
+                                  '(("a" "Appointment" entry
+                                     (file+olp "~/coisas/matematicasdavida/minhascoisas/org/personal.org" "External Communication" "Appointments")
+                                     "")
+                                    ("r" "Talk to" entry
+                                     (file+olp "~/coisas/matematicasdavida/minhascoisas/org/personal.org" "External Communication" "Talk to")
+                                     "")
+                                    ("b" "Blog idea" entry
+                                     (file+olp "~/coisas/matematicasdavida/minhascoisas/org/application.org" "Build/Improve Website" "Add Content")
+                                     "
+                                " :prepend t)
+                                    ("t" "Task" entry
+                                     (file+headline "~/coisas/matematicasdavida/minhascoisas/org/notes.org" "Captured Tasks")
+                                     "
+                                ")
+                                    ("n" "Note" entry
+                                     (file+headline "~/coisas/matematicasdavida/minhascoisas/org/notes.org" "Notespace")
+                                     "
+                                ")
+                                    ("p" "Project" entry
+                                     (file+olp "~/coisas/matematicasdavida/minhascoisas/org/notes.org" "Captured Projects")
+                                     "")))
 
-                                       ;; active built-in modules
-                                                        (setq org-modules
-                                                    '(org-bbdb
-                                                      org-bibtex
-                                                      org-docview
-                                                      org-eww
-                                                      org-gnus
-                                                      org-habit
-                                                      org-info
-                                                      org-irc
-                                                      org-mhe
-                                                      org-rmail
-                                                      org-w3m
-                                                      org-notify)
-                                                    )
+              ;; active built-in modules
+                               (setq org-modules
+                           '(org-bbdb
+                             org-bibtex
+                             org-docview
+                             org-eww
+                             org-gnus
+                             org-habit
+                             org-info
+                             org-irc
+                             org-mhe
+                             org-rmail
+                             org-w3m
+                             org-notify)
+                           )
 
-                                    ;; org-habit configuration
+           ;; org-habit configuration
 
-                                                  (setq org-habit-preceding-days 7)
-                                                  (setq org-habit-show-all-today t)
-                                                  (setq org-habit-show-done-always-green t)
+                         (setq org-habit-preceding-days 7)
+                         (setq org-habit-show-all-today t)
+                         (setq org-habit-show-done-always-green t)
 
 
-                                   ;; todo keywords
+          ;; todo keywords
 
-                                    (setq org-todo-keywords
-                                    '((sequence "TODO(n)"
-                                                "Idea(i)"
-                                                "InProgress(p)"
-                                                "MissingRequirement(r@)"
-                                                "HugeObstacle(h@)"
-                                                "|"
-                                                "DONE(f@)"
-                                                "Cancelled(c@)")))
+           (setq org-todo-keywords
+           '((sequence "TODO(n)"
+                       "Idea(i)"
+                       "InProgress(p)"
+                       "MissingRequirement(r@)"
+                       "HugeObstacle(h@)"
+                       "|"
+                       "DONE(f@)"
+                       "Cancelled(c@)")))
+
+         
 
    #+end_src
 
 ** Visual
    #+begin_src emacs-lisp
-     (setq org-todo-keyword-faces (quote
-              (("Idea" . "White")
-               ("MissingRequirement" . "yellow")
-               ("DONE" . "green")
-               ("Cancelled" . "forest green")
-               ("HugeObstacle" . "red")
-               ("TODO" . "magenta"))))
+         (setq org-todo-keyword-faces (quote
+                  (("Idea" . "White")
+                   ("MissingRequirement" . "yellow")
+                   ("DONE" . "green")
+                   ("Cancelled" . "forest green")
+                   ("HugeObstacle" . "red")
+                   ("TODO" . "magenta"))))
 
- ;; TODO: Set org-ellipsis to triangle
+     ;; TODO: Set org-ellipsis to triangle
+     ;; TODO: Ser org-table font to monospaced
    #+end_src
-
+   
 ** Add-ons
 *** Org-Noter
     #+begin_src emacs-lisp
@@ -204,6 +206,127 @@
                                                        ("~/coisas/matematicasdavida/Livros/library.bib")))
                    (setq org-ref-get-pdf-filename-function (quote org-ref-get-mendeley-filename))
 #+end_src
+* Programming Languages
+** LaTeX
+ #+begin_src emacs-lisp
+;;; Adding Some Functionality to tex.el
+
+(defun ariel/tex-open-inline-mathmode ()
+   (interactive)
+    (insert (concat "\\" "\(")))
+
+(defun ariel/tex-close-inline-mathmode()
+  (interactive)
+  (insert (concat "\\" "\)")))
+
+(defun ariel/tex-open-display-mathmode ()
+  (interactive)
+  (insert (concat "\\" "\[")))
+
+(defun ariel/tex-close-display-mathmode()
+  (interactive)
+  (insert (concat "\\" "\]")))
+
+
+
+(defun ariel/tex-inline-mathmode (arg)
+  "Make a pair of braces around next ARG sexps and leave point inside.
+No argument is equivalent to zero: just insert braces and leave point
+between.
+
+If there is an active region, ARG will be ignored, braces will be
+inserted around the region, and point will be left after the
+closing brace."
+  (interactive "P")
+  (if (TeX-active-mark)
+      (progn
+	      (if (< (point) (mark))
+	          (exchange-point-and-mark))
+	      (ariel/tex-close-inline-mathmode)
+	      (save-excursion
+	        (goto-char (mark))
+	        (ariel/tex-open-inline-mathmode)))
+    (ariel/tex-open-inline-mathmode)
+    (save-excursion
+      (if arg (forward-sexp (prefix-numeric-value arg)))
+      (ariel/tex-close-inline-mathmode))))
+
+(defun ariel/tex-display-mathmode (arg)
+  "Make a pair of braces around next ARG sexps and leave point inside.
+No argument is equivalent to zero: just insert braces and leave point
+between.
+
+If there is an active region, ARG will be ignored, braces will be
+inserted around the region, and point will be left after the
+closing brace."
+  (interactive "P")
+  (if (TeX-active-mark)
+      (progn
+	      (if (< (point) (mark))
+	          (exchange-point-and-mark))
+	      (ariel/tex-close-display-mathmode)
+	      (save-excursion
+	        (goto-char (mark))
+	        (ariel/tex-open-display-mathmode)))
+    (ariel/tex-open-display-mathmode)
+    (save-excursion
+      (if arg (forward-sexp (prefix-numeric-value arg)))
+      (ariel/tex-close-display-mathmode))))
+
+
+(defun ariel/inline-dollar-mathmode (arg)
+    "Make a pair of braces around next ARG sexps and leave point inside.
+No argument is equivalent to zero: just insert braces and leave point
+between.
+
+If there is an active region, ARG will be ignored, braces will be
+inserted around the region, and point will be left after the
+closing brace."
+    (interactive "P")
+    (if (TeX-active-mark)
+        (progn
+	        (if (< (point) (mark))
+	            (exchange-point-and-mark))
+	        (TeX-insert-dollar)
+	        (save-excursion
+	          (goto-char (mark))
+	          (TeX-insert-dollar)))
+      (TeX-insert-dollar)
+      (save-excursion
+        (if arg (forward-sexp (prefix-numeric-value arg)))
+        (TeX-insert-dollar))))
+
+
+(defun ariel/display-dollar-mathmode (arg)
+  "Make a pair of braces around next ARG sexps and leave point inside.
+No argument is equivalent to zero: just insert braces and leave point
+between.
+
+If there is an active region, ARG will be ignored, braces will be
+inserted around the region, and point will be left after the
+closing brace."
+  (interactive "P")
+  (if (TeX-active-mark)
+      (progn
+	      (if (< (point) (mark))
+	          (exchange-point-and-mark))
+	      (TeX-insert-dollar)
+        (TeX-insert-dollar)
+	      (save-excursion
+	        (goto-char (mark))
+	        (TeX-insert-dollar)
+          (TeX-insert-dollar)))
+    (TeX-insert-dollar)
+    (TeX-insert-dollar)
+    (save-excursion
+      (if arg (forward-sexp (prefix-numeric-value arg)))
+      (TeX-insert-dollar)
+      (TeX-insert-dollar))))
+ #+end_src
+
+ #+RESULTS:
+ : ariel/display-dollar-mathmode
+
 * Left to organize
 ** Wolfram Mode  
 #+begin_src emacs-lisp
