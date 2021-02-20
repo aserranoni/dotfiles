@@ -9,7 +9,8 @@
 
      (doom-modeline-mode 1)
      (global-undo-tree-mode)
-     (ivy-rich-mode)-the-icons-ivy-rich-mode)
+     (ivy-rich-mode)
+     (all-the-icons-ivy-rich-mode)
      ;; Support multiple eshell instances
 
      (defun eshell-new()
@@ -17,6 +18,8 @@
        (interactive)
        (eshell 'N)
        )
+
+; TODO : ADD ICONS AND GIT INFO TO DIRED - AS HOOKS
 
 #+end_src
 

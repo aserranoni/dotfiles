@@ -30,7 +30,7 @@ This function should only modify configuration layer settings."
    ;; If non-nil layers with lazy install support are lazy installed.
    ;; List of additional paths where to look for configuration layers.
    ;; Paths must have a trailing slash (i.e. `~/.mycontribs/')
-   dotspacemacs-configuration-layer-path '()
+  dotspacemacs-configuration-layer-path '()
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
@@ -58,6 +58,7 @@ This function should only modify configuration layer settings."
      rust
      html
      elfeed
+     twitter
      markdown
      ipython-notebook
      (python :variables python-backend 'lsp python-enable-yapf-format-on-save t python-sort-imports-on-save t)
@@ -78,6 +79,8 @@ This function should only modify configuration layer settings."
    ;; '(your-package :location "~/path/to/your-package/")
    ;; Also include the dependencies as they will not be resolved automatically.
    dotspacemacs-additional-packages '(
+                                      dired-git-info
+                                      dired-icon
                                       all-the-icons-ivy-rich
                                       doom-modeline
                                       workgroups2
@@ -93,6 +96,9 @@ This function should only modify configuration layer settings."
                                       org-bullets
                                       org-brain
                                       org-noter
+                                      org-edna
+                                      org-superstar
+                                      org-super-agenda
                                       rainbow-delimiters
                                       elpy
                                       )
@@ -527,11 +533,15 @@ This function is called at the very end of Spacemacs initialization."
  ;; If there is more than one, they won't work right.
  '(aw-leading-char-face ((t (:inherit ace-jump-face-foreground :height 2.0))))
  '(company-tooltip-common ((t (:inherit company-tooltip :weight bold :underline nil))))
- '(company-tooltip-common-selection ((t (:inherit company-tooltip-selection :weight bold :underline nil)))))
+ '(company-tooltip-common-selection ((t (:inherit company-tooltip-selection :weight bold :underline nil))))
+ '(org-link ((t (:foreground "#2aa1ae" :underline t :family "Monospace"))))
+ '(org-table ((t (:background "#293239" :foreground "#b2b2b2" :family "Monospace"))))
+ '(tab-bar ((t (:inherit variable-pitch :extend t :background "dark cyan" :distant-foreground "lawn green" :foreground "gray11" :inverse-video t :underline nil :slant italic :weight semi-light :height 0.9 :width normal)))))
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(org-superstar-remove-leading-stars t)
  '(package-selected-packages
-   '(zenburn-theme zen-and-art-theme underwater-theme ujelly-theme twilight-theme twilight-bright-theme twilight-anti-bright-theme toxi-theme tao-theme tangotango-theme tango-plus-theme tango-2-theme sunny-day-theme sublime-themes subatomic256-theme subatomic-theme spacegray-theme soothe-theme solarized-theme soft-stone-theme soft-morning-theme soft-charcoal-theme smyx-theme seti-theme reverse-theme railscasts-theme purple-haze-theme professional-theme planet-theme phoenix-dark-pink-theme phoenix-dark-mono-theme organic-green-theme omtose-phellack-theme oldlace-theme occidental-theme obsidian-theme noctilux-theme naquadah-theme mustang-theme monokai-theme monochrome-theme molokai-theme moe-theme minimal-theme material-theme majapahit-theme madhat2r-theme lush-theme light-soap-theme jbeans-theme jazz-theme ir-black-theme inkpot-theme heroku-theme hemisu-theme hc-zenburn-theme gruvbox-theme gruber-darker-theme grandshell-theme gotham-theme gandalf-theme flatui-theme flatland-theme farmhouse-theme espresso-theme dracula-theme django-theme darktooth-theme autothemer darkokai-theme darkmine-theme darkburn-theme dakrone-theme cyberpunk-theme color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized clues-theme cherry-blossom-theme busybee-theme bubbleberry-theme birds-of-paradise-plus-theme badwolf-theme apropospriate-theme anti-zenburn-theme ample-zen-theme ample-theme alect-themes afternoon-theme all-the-icons-ivy-rich ivy-bibtex yapfify xterm-color workgroups2 wolfram-mode which-key wgrep web-mode use-package undo-tree toml-mode tagedit smex smeargle slim-mode shell-pop scss-mode sass-mode rainbow-delimiters racer pytest pyenv-mode py-isort pug-mode powershell pip-requirements pcre2el orgit org-ref org-present org-pomodoro org-noter org-download org-bullets org-brain neotree multi-term mu4e-maildirs-extension mu4e-alert mmm-mode markdown-toc magit-gitflow macrostep live-py-mode ivy-rich ivy-hydra insert-shebang hy-mode helm-make gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md fuzzy flx fish-mode exec-path-from-shell evil-visualstar evil-magit evil-escape ess-smart-equals ess-R-data-view eshell-z eshell-prompt-extras esh-help engine-mode emmet-mode elpy elisp-slime-nav elfeed-web elfeed-org elfeed-goodies ein doom-modeline disaster diminish cython-mode csv-mode counsel-projectile company-web company-tabnine company-statistics company-shell company-c-headers company-auctex company-anaconda cmake-mode clang-format cargo bind-map auto-yasnippet auto-compile auctex-latexmk ace-window ac-ispell)))
+   '(org-superstar org-super-agenda ts org-edna twittering-mode vuiet circe dired-git-info dired-icon zenburn-theme zen-and-art-theme underwater-theme ujelly-theme twilight-theme twilight-bright-theme twilight-anti-bright-theme toxi-theme tao-theme tangotango-theme tango-plus-theme tango-2-theme sunny-day-theme sublime-themes subatomic256-theme subatomic-theme spacegray-theme soothe-theme solarized-theme soft-stone-theme soft-morning-theme soft-charcoal-theme smyx-theme seti-theme reverse-theme railscasts-theme purple-haze-theme professional-theme planet-theme phoenix-dark-pink-theme phoenix-dark-mono-theme organic-green-theme omtose-phellack-theme oldlace-theme occidental-theme obsidian-theme noctilux-theme naquadah-theme mustang-theme monokai-theme monochrome-theme molokai-theme moe-theme minimal-theme material-theme majapahit-theme madhat2r-theme lush-theme light-soap-theme jbeans-theme jazz-theme ir-black-theme inkpot-theme heroku-theme hemisu-theme hc-zenburn-theme gruvbox-theme gruber-darker-theme grandshell-theme gotham-theme gandalf-theme flatui-theme flatland-theme farmhouse-theme espresso-theme dracula-theme django-theme darktooth-theme autothemer darkokai-theme darkmine-theme darkburn-theme dakrone-theme cyberpunk-theme color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized clues-theme cherry-blossom-theme busybee-theme bubbleberry-theme birds-of-paradise-plus-theme badwolf-theme apropospriate-theme anti-zenburn-theme ample-zen-theme ample-theme alect-themes afternoon-theme all-the-icons-ivy-rich ivy-bibtex yapfify xterm-color workgroups2 wolfram-mode which-key wgrep web-mode use-package undo-tree toml-mode tagedit smex smeargle slim-mode shell-pop scss-mode sass-mode rainbow-delimiters racer pytest pyenv-mode py-isort pug-mode powershell pip-requirements pcre2el orgit org-ref org-present org-pomodoro org-noter org-download org-bullets org-brain neotree multi-term mu4e-maildirs-extension mu4e-alert mmm-mode markdown-toc magit-gitflow macrostep live-py-mode ivy-rich ivy-hydra insert-shebang hy-mode helm-make gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md fuzzy flx fish-mode exec-path-from-shell evil-visualstar evil-magit evil-escape ess-smart-equals ess-R-data-view eshell-z eshell-prompt-extras esh-help engine-mode emmet-mode elpy elisp-slime-nav elfeed-web elfeed-org elfeed-goodies ein doom-modeline disaster diminish cython-mode csv-mode counsel-projectile company-web company-tabnine company-statistics company-shell company-c-headers company-auctex company-anaconda cmake-mode clang-format cargo bind-map auto-yasnippet auto-compile auctex-latexmk ace-window ac-ispell)))
