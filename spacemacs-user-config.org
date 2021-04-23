@@ -1,5 +1,5 @@
 * Global Stuff
-
+  
 #+begin_src emacs-lisp
     ;; supress package cl deprecated warning at startup
 
@@ -24,62 +24,62 @@
 #+end_src
 
 
-** Some Keybindings
+** Some Global Keybindings
 #+begin_src emacs-lisp
 
-      ;; Extra custom keybindings
-        (global-set-key (kbd "C-x s") (quote eshell)) ; open eshell
-        (global-set-key (kbd "C-x C-2") (quote make-frame)) ;; open new frame
-        ;;(global-set-key (kbd "C-s") (quote helm-occur)) ;; Helm fancy search
-        (global-set-key (kbd "C-x w") (quote wg-open-workgroup)) ;; go-to workgroups
-        (global-set-key (kbd "C-c s") (quote engine/search-duck-duck-go)) ;; search the web
-        (global-set-key (kbd "C-c r") (quote rainbow-delimiters-mode)) ;; activate rainbow delimiters
-        (global-set-key (kbd "C-z") (quote undo-tree-visualize)) ;;use undo tree with reasonable shortcut - NOT WORKING
- #+end_src
-
-** Navigation
+  ;; Extra custom keybindings
+    (global-set-key (kbd "C-x s") (quote eshell)) ; open eshell
+    (global-set-key (kbd "C-x C-2") (quote make-frame)) ;; open new frame
+    ;;(global-set-key (kbd "C-s") (quote helm-occur)) ;; Helm fancy search
+    (global-set-key (kbd "C-x w") (quote wg-open-workgroup)) ;; go-to workgroups
+    (global-set-key (kbd "C-c s") (quote engine/search-duck-duck-go)) ;; search the web
+    (global-set-key (kbd "C-c r") (quote rainbow-delimiters-mode)) ;; activate rainbow delimiters
+    (global-set-key (kbd "C-x o") (quote ace-window))
+    (global-set-key (kbd "C-z") (quote undo-tree-visualize)) ;;use undo tree with reasonable shortcut - NOT WORKING
+    (global-set-key  (kbd "M-n l") (quote avy-goto-line))
+    (global-set-key  (kbd "M-n w") (quote avy-goto-word))
+    (global-set-key  (kbd "M-n c r") (quote avy-copy-region))
+    (global-set-key (kbd "M-n k r") (quote avy-kill-region))
+    (global-set-key (kbd "M-n m r") (quote avy-move-region))
+    #+end_src
 
  #+begin_src emacs-lisp
+      ;; Evil Mode custom keybindings
+   (define-key evil-normal-state-map (kbd "s") (quote swiper))
+   (define-key evil-normal-state-map (kbd "o") (quote ace-window))
+   ;(define-key evil-normal-state-map (kbd "n") (quote avy-goto-line))
+   (define-key evil-normal-state-map (kbd "m") (quote avy-move-region))
+   (define-key evil-normal-state-map (kbd "u") (quote undo-tree-visualize))
 
-                 ;; Ace Window
-
-                 (global-set-key [remap other-window] 'ace-window)
-                 (custom-set-faces
-                  '(aw-leading-char-face
-                    ((t (:inherit ace-jump-face-foreground :height 2.0)))))
-                 (global-set-key (kbd "C-x o") (quote ace-window))
-
-                 ;; Avy
-
-               (avy-setup-default)
-               (setq avy-all-windows t)
-               (global-set-key (kbd "M-n w") (quote avy-goto-word-0)) ;; Navigate to word
-               (global-set-key (kbd "M-n l") (quote avy-goto-line)) ;; Navigate ro line
-               (global-set-key (kbd "M-n c r") (quote avy-kill-ring-save-region))
-               (global-set-key (kbd "M-n k r") (quote avy-kill-region))
+   (define-prefix-command 'avy-map)
+   (define-key evil-normal-state-map (kbd "n") avy-map)
+   (define-key avy-map (kbd "l") (quote avy-goto-line))
+   (define-key avy-map (kbd "w") (quote avy-goto-word-0))
 
  #+end_src
 
-** Surfing the web
+ #+RESULTS:
+ : avy-goto-word-0
+
+** Browse Url
 #+begin_src emacs-lisp
-                     ;; Support for Windows Browser
+ (defun browse-url-ariel (url &optional _new-window)
+    "Function to open url on windows google chrome browser
+          - compatible with browse-url
+          - useful for wsl users"
+    (interactive "s")
+    (shell-command
+     (concat
+      (concat
+       "\"/mnt/c/Program Files (x86)/Google/Chrome/Application/chrome.exe\"" " ") url ))
+    )
 
-                     (defun browse-url-ariel (url &optional _new-window)
-                       "Function to open url on windows google chrome browser
-                             - compatible with browse-url
-                             - useful for wsl users"
-                       (interactive "s")
-                       (shell-command
-                        (concat
-                         (concat
-                          "\"/mnt/c/Program Files (x86)/Google/Chrome/Application/chrome.exe\"" " ") url ))
-                       )
-
-                     (setq browse-url-browser-function 'browse-url-ariel)
-                     (setq browse-url-chrome-program
-                       "/mnt/c/Program\\ Files\\ \\(x86\\)/Google/Chrome/Application/chrome.exe")
+  (setq browse-url-browser-function 'browse-url-ariel)
 
 #+end_src
+
+#+RESULTS:
+: browse-url-ariel
 
 * Org-Mode Configuration
 ** Defaults
@@ -152,7 +152,7 @@
          
 
    #+end_src
-
+   
 ** Visual
    #+begin_src emacs-lisp
          (setq org-todo-keyword-faces (quote
@@ -163,10 +163,14 @@
                    ("HugeObstacle" . "red")
                    ("TODO" . "magenta"))))
 
-     ;; TODO: Set org-ellipsis to triangle
+         (setq org-hide-emphasis-markers t) ;; Hide markers for higlighted text (bold, italic, etc...)
+
+         (setq org-ellipsis "⤵") ;; Other possible choices are ▼, ↴, ⬎, ⤷, and ⋱.
+
+
      ;; TODO: Ser org-table font to monospaced
    #+end_src
-   
+
 ** Add-ons
 *** Org-Noter
     #+begin_src emacs-lisp
@@ -212,124 +216,139 @@
 * Programming Languages
 ** LaTeX
  #+begin_src emacs-lisp
-;;; Adding Some Functionality to tex.el
+          ;;; Adding Some Functionality to tex.el
 
-(defun ariel/tex-open-inline-mathmode ()
-   (interactive)
-    (insert (concat "\\" "\(")))
+          (defun ariel/tex-open-inline-mathmode ()
+             (interactive)
+              (insert (concat "\\" "\(")))
 
-(defun ariel/tex-close-inline-mathmode()
-  (interactive)
-  (insert (concat "\\" "\)")))
+          (defun ariel/tex-close-inline-mathmode()
+            (interactive)
+            (insert (concat "\\" "\)")))
 
-(defun ariel/tex-open-display-mathmode ()
-  (interactive)
-  (insert (concat "\\" "\[")))
+          (defun ariel/tex-open-display-mathmode ()
+            (interactive)
+            (insert (concat "\\" "\[")))
 
-(defun ariel/tex-close-display-mathmode()
-  (interactive)
-  (insert (concat "\\" "\]")))
-
-
-
-(defun ariel/tex-inline-mathmode (arg)
-  "Make a pair of braces around next ARG sexps and leave point inside.
-No argument is equivalent to zero: just insert braces and leave point
-between.
-
-If there is an active region, ARG will be ignored, braces will be
-inserted around the region, and point will be left after the
-closing brace."
-  (interactive "P")
-  (if (TeX-active-mark)
-      (progn
-	      (if (< (point) (mark))
-	          (exchange-point-and-mark))
-	      (ariel/tex-close-inline-mathmode)
-	      (save-excursion
-	        (goto-char (mark))
-	        (ariel/tex-open-inline-mathmode)))
-    (ariel/tex-open-inline-mathmode)
-    (save-excursion
-      (if arg (forward-sexp (prefix-numeric-value arg)))
-      (ariel/tex-close-inline-mathmode))))
-
-(defun ariel/tex-display-mathmode (arg)
-  "Make a pair of braces around next ARG sexps and leave point inside.
-No argument is equivalent to zero: just insert braces and leave point
-between.
-
-If there is an active region, ARG will be ignored, braces will be
-inserted around the region, and point will be left after the
-closing brace."
-  (interactive "P")
-  (if (TeX-active-mark)
-      (progn
-	      (if (< (point) (mark))
-	          (exchange-point-and-mark))
-	      (ariel/tex-close-display-mathmode)
-	      (save-excursion
-	        (goto-char (mark))
-	        (ariel/tex-open-display-mathmode)))
-    (ariel/tex-open-display-mathmode)
-    (save-excursion
-      (if arg (forward-sexp (prefix-numeric-value arg)))
-      (ariel/tex-close-display-mathmode))))
+          (defun ariel/tex-close-display-mathmode()
+            (interactive)
+            (insert (concat "\\" "\]")))
 
 
-(defun ariel/inline-dollar-mathmode (arg)
-    "Make a pair of braces around next ARG sexps and leave point inside.
-No argument is equivalent to zero: just insert braces and leave point
-between.
 
-If there is an active region, ARG will be ignored, braces will be
-inserted around the region, and point will be left after the
-closing brace."
-    (interactive "P")
-    (if (TeX-active-mark)
+          (defun ariel/tex-inline-mathmode (arg)
+            "Make a pair of braces around next ARG sexps and leave point inside.
+          No argument is equivalent to zero: just insert braces and leave point
+          between.
+
+          If there is an active region, ARG will be ignored, braces will be
+          inserted around the region, and point will be left after the
+          closing brace."
+            (interactive "P")
+            (if (TeX-active-mark)
+                (progn
+                  (if (< (point) (mark))
+                      (exchange-point-and-mark))
+                  (ariel/tex-close-inline-mathmode)
+                  (save-excursion
+                    (goto-char (mark))
+                    (ariel/tex-open-inline-mathmode)))
+              (ariel/tex-open-inline-mathmode)
+              (save-excursion
+                (if arg (forward-sexp (prefix-numeric-value arg)))
+                (ariel/tex-close-inline-mathmode))))
+
+          (defun ariel/tex-display-mathmode (arg)
+            "Make a pair of braces around next ARG sexps and leave point inside.
+          No argument is equivalent to zero: just insert braces and leave point
+          between.
+
+          If there is an active region, ARG will be ignored, braces will be
+          inserted around the region, and point will be left after the
+          closing brace."
+            (interactive "P")
+            (if (TeX-active-mark)
+                (progn
+                  (if (< (point) (mark))
+                      (exchange-point-and-mark))
+                  (ariel/tex-close-display-mathmode)
+                  (save-excursion
+                    (goto-char (mark))
+                    (ariel/tex-open-display-mathmode)))
+              (ariel/tex-open-display-mathmode)
+              (save-excursion
+                (if arg (forward-sexp (prefix-numeric-value arg)))
+                (ariel/tex-close-display-mathmode))))
+
+
+          (defun ariel/inline-dollar-mathmode (arg)
+              "Make a pair of braces around next ARG sexps and leave point inside.
+          No argument is equivalent to zero: just insert braces and leave point
+          between.
+
+          If there is an active region, ARG will be ignored, braces will be
+          inserted around the region, and point will be left after the
+          closing brace."
+              (interactive "P")
+              (if (TeX-active-mark)
+                  (progn
+                    (if (< (point) (mark))
+                        (exchange-point-and-mark))
+                    (TeX-insert-dollar)
+                    (save-excursion
+                      (goto-char (mark))
+                      (TeX-insert-dollar)))
+                (TeX-insert-dollar)
+                (save-excursion
+                  (if arg (forward-sexp (prefix-numeric-value arg)))
+                  (TeX-insert-dollar))))
+
+
+       ;; Set Keybindings for the functions above - How can I auto run the following function after latex mode?
+
+
+    (defun ariel/latex-adjust-keybindings ()
+     (interactive)
+     (eval-after-load 'latex-mode
         (progn
-	        (if (< (point) (mark))
-	            (exchange-point-and-mark))
-	        (TeX-insert-dollar)
-	        (save-excursion
-	          (goto-char (mark))
-	          (TeX-insert-dollar)))
-      (TeX-insert-dollar)
-      (save-excursion
-        (if arg (forward-sexp (prefix-numeric-value arg)))
-        (TeX-insert-dollar))))
+        (define-key spacemacs-latex-mode-map (kbd "m") 'nil)
+        (define-key spacemacs-latex-mode-map (kbd "m i") 'ariel/tex-inline-mathmode)
+        (define-key spacemacs-latex-mode-map (kbd "m d") 'ariel/tex-display-mathmode)
+        (define-key LaTeX-mode-map (kbd "C-c m i") 'ariel/tex-inline-mathmode)
+        (define-key LaTeX-mode-map  (kbd "C-c m d") 'ariel/tex-display-mathmode)
+        )))
 
 
-(defun ariel/display-dollar-mathmode (arg)
-  "Make a pair of braces around next ARG sexps and leave point inside.
-No argument is equivalent to zero: just insert braces and leave point
-between.
+    (add-hook 'tex-mode-hook 'ariel/latex-adjust-keybindings)
 
-If there is an active region, ARG will be ignored, braces will be
-inserted around the region, and point will be left after the
-closing brace."
-  (interactive "P")
-  (if (TeX-active-mark)
-      (progn
-	      (if (< (point) (mark))
-	          (exchange-point-and-mark))
-	      (TeX-insert-dollar)
-        (TeX-insert-dollar)
-	      (save-excursion
-	        (goto-char (mark))
-	        (TeX-insert-dollar)
-          (TeX-insert-dollar)))
-    (TeX-insert-dollar)
-    (TeX-insert-dollar)
-    (save-excursion
-      (if arg (forward-sexp (prefix-numeric-value arg)))
-      (TeX-insert-dollar)
-      (TeX-insert-dollar))))
- #+end_src
+  #+end_src
+*** Setting up output with pdf-tools
+  
+ #+begin_src emacs-lisp
+                                                                                                                                          ;;
+       (setq TeX-view-program-selection                                                                                        ;;
+             (quote (                                                                                                          ;;
+                      ((output-dvi has-no-display-manager) "PDF Tools")                                                         ;;
+                     ((output-dvi style-pstricks) "PDF Tools")                                                                 ;;
+                     (output-dvi "PDF Tools")                                                                                  ;;
+                     (output-pdf "PDF Tools")                                                                                  ;;
+                     (output-html "PDF Tools")))) 
+   #+end_src
+** Python
 
- #+RESULTS:
- : ariel/display-dollar-mathmode
+   Setting Python 3 as default
+   
+   #+begin_src emacs-lisp
+               (setq elpy-rpc-python-command "python3")                                                                                ;;
+               (setq python-shell-interpreter "python3")
+  #+end_src emacs-lisp
 
+* Misc
+** Elfeed
+   #+begin_src emacs-lisp
+        (setq rmh-elfeed-org-files(quote
+                                 ("~/coisas/matematicasdavida/minhascoisas/org/rssfeeds.org")))
+   #+end_src
 * Left to organize
 ** Wolfram Mode  
 #+begin_src emacs-lisp
@@ -367,31 +386,18 @@ closing brace."
 
       ;; ;;                                                                                                                         ;;
       ;; ;; ;;; Some Variables                                                                                                      ;;
-                                                                                                                                    ;;
-       (setq TeX-view-program-selection                                                                                        ;;
-             (quote (                                                                                                          ;;
-                      ((output-dvi has-no-display-manager) "PDF Tools")                                                         ;;
-                     ((output-dvi style-pstricks) "PDF Tools")                                                                 ;;
-                     (output-dvi "PDF Tools")                                                                                  ;;
-                     (output-pdf "PDF Tools")                                                                                  ;;
-                     (output-html "PDF Tools"))))                                                                              ;;
+                                                                             ;;
        (setq bibtex-completion-notes-path "~/coisas/matematicasdavida/minhascoisas/org/pdfnotes.org")                          ;;
        (setq bibtex-completion-pdf-field "nil")                                                                                ;;
                                                                                                                                ;;
 
       ;; ;; ;; Python                                                                                                               ;;
                                                                                                                                ;;
-            (setq elpy-rpc-python-command "python3")                                                                                ;;
-            (setq python-shell-interpreter "python3")
-
 
 
 
       (setq reftex-default-bibliography (quote
                                                   ("~/coisas/matematicasdavida/Livros/library.bib")))
-
-      (setq rmh-elfeed-org-files(quote
-                                 ("~/coisas/matematicasdavida/minhascoisas/org/rssfeeds.org")))
 
 
 
@@ -403,3 +409,4 @@ closing brace."
 
       #+end_src
                    
+      
