@@ -102,8 +102,9 @@ if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
     . /etc/bash_completion
 fi
 
-export DISPLAY=$(cat /etc/resolv.conf | grep nameserver | awk '{print $2; exit;}'):0
-export LIBGL_ALWAYS_INDIRECT=1
+#export DISPLAY=$(cat /etc/resolv.conf | grep nameserver | awk '{print $2; exit;}'):0
+#export LIBGL_ALWAYS_INDIRECT=1
+export PATH="$HOME/./pact:$PATH"
 alias gitinfo-installer='~/gitinfo-installer/gitinfo-installer.sh'
 alias arduino='arduino-cli.exe'
 alias read-com-port='sh ~/coisas/matematicasdavida/minhascoisas/arduino/readcomport.sh'

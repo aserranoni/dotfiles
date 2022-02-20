@@ -1,25 +1,29 @@
 * Global Stuff
   
 #+begin_src emacs-lisp
-    ;; supress package cl deprecated warning at startup
+      ;; supress package cl deprecated warning at startup
 
-  (setq byte-complile-warnings '(not cl-functions))
+    (setq byte-complile-warnings '(not cl-functions))
 
-     ;; Enable doom modeline, ivy rich  and undo-tree globally
+      ;; neotree change root
+    (setq neo-click-changes-root-toggle 't)
+   
+       ;; Enable doom modeline, ivy rich  and undo-tree globally
 
-     (doom-modeline-mode 1)
-     (global-undo-tree-mode)
-     (ivy-rich-mode)
-     (all-the-icons-ivy-rich-mode)
-     ;; Support multiple eshell instances
+       (doom-modeline-mode 1)
+       (global-undo-tree-mode)
+       (ivy-rich-mode)
+       (all-the-icons-ivy-rich-mode)
+       ;; Support multiple eshell instances
 
-     (defun eshell-new()
-       "Open a new instance of eshell."
-       (interactive)
-       (eshell 'N)
-       )
+       (defun eshell-new()
+         "Open a new instance of eshell."
+         (interactive)
+         (eshell 'N)
+         )
 
-; TODO : ADD ICONS AND GIT INFO TO DIRED - AS HOOKS
+  ; TODO : ADD ICONS AND GIT INFO TO DIRED - AS HOOKS
+
 
 #+end_src
 
@@ -47,10 +51,10 @@
       ;; Evil Mode custom keybindings
    (define-key evil-normal-state-map (kbd "s") (quote swiper))
    (define-key evil-normal-state-map (kbd "o") (quote ace-window))
-   ;(define-key evil-normal-state-map (kbd "n") (quote avy-goto-line))
    (define-key evil-normal-state-map (kbd "m") (quote avy-move-region))
    (define-key evil-normal-state-map (kbd "u") (quote undo-tree-visualize))
-
+   (define-key evil-normal-state-map (kbd "t") (quote neotree-toggle))
+   
    (define-prefix-command 'avy-map)
    (define-key evil-normal-state-map (kbd "n") avy-map)
    (define-key avy-map (kbd "l") (quote avy-goto-line))
@@ -182,6 +186,18 @@
 
 
     #+end_src
+*** Org-roam
+   #+begin_src emacs-lisp
+     ;; variables
+          (setq org-roam-v2-ack t)
+          (setq org-roam-directory "~/coisas/matematicasdavida/minhascoisas/org/roam")
+     ;; ADD keybindings here!
+   
+  #+end_src
+
+  #+RESULTS:
+  : ~/coisas/matematicasdavida/minhascoisas/org/roam
+    
 *** Org-Brain
  #+begin_src emacs-lisp
 
@@ -213,6 +229,10 @@
                                                        ("~/coisas/matematicasdavida/Livros/library.bib")))
                    (setq org-ref-get-pdf-filename-function (quote org-ref-get-mendeley-filename))
 #+end_src
+
+#+RESULTS:
+: org-ref-get-mendeley-filename
+
 * Programming Languages
 ** LaTeX
  #+begin_src emacs-lisp
@@ -338,17 +358,21 @@
 
    Setting Python 3 as default
    
-   #+begin_src emacs-lisp
-               (setq elpy-rpc-python-command "python3")                                                                                ;;
-               (setq python-shell-interpreter "python3")
+  #+begin_src emacs-lisp
+  (setq elpy-rpc-python-command "python3")                                                                                ;;
+  (setq python-shell-interpreter "python3")
   #+end_src emacs-lisp
 
 * Misc
 ** Elfeed
    #+begin_src emacs-lisp
-        (setq rmh-elfeed-org-files(quote
-                                 ("~/coisas/matematicasdavida/minhascoisas/org/rssfeeds.org")))
+        (setq rmh-elfeed-org-files
+                                 '("~/coisas/matematicasdavida/minhascoisas/org/rssfeeds.org"))
    #+end_src
+
+   #+RESULTS:
+   | ~/coisas/matematicasdavida/minhascoisas/org/rssfeeds.org |
+
 * Left to organize
 ** Wolfram Mode  
 #+begin_src emacs-lisp
@@ -409,4 +433,7 @@
 
       #+end_src
                    
+      
+
+
       
