@@ -104,8 +104,11 @@ fi
 
 #export DISPLAY=$(cat /etc/resolv.conf | grep nameserver | awk '{print $2; exit;}'):0
 #export LIBGL_ALWAYS_INDIRECT=1
+emacs --daemon
 export PATH="$HOME/./pact:$PATH"
 alias gitinfo-installer='~/gitinfo-installer/gitinfo-installer.sh'
 alias arduino='arduino-cli.exe'
 alias read-com-port='sh ~/coisas/matematicasdavida/minhascoisas/arduino/readcomport.sh'
-
+alias emacs=emacsclient --create-frame --alternate-editor="" &
+export PYTHONBREAKPOINT=ipdb.set_trace
+#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
