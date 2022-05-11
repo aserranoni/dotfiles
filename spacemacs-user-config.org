@@ -48,7 +48,8 @@
     #+end_src
 
  #+begin_src emacs-lisp
-      ;; Evil Mode custom keybindings
+
+   ;; Evil Mode custom keybindings
    (define-key evil-normal-state-map (kbd "s") (quote swiper))
    (define-key evil-normal-state-map (kbd "o") (quote ace-window))
    (define-key evil-normal-state-map (kbd "m") (quote avy-move-region))
@@ -175,7 +176,11 @@
      ;; TODO: Ser org-table font to monospaced
    #+end_src
 
+   #+RESULTS:
+   : ⤵
+
 ** Add-ons
+
 *** Org-Noter
     #+begin_src emacs-lisp
      
@@ -386,7 +391,6 @@
         (add-to-list 'auto-mode-alist '("\.pdf$" . pdf-view-mode))
       ;; Python mode hook - enable elpy
         (add-hook 'python-mode-hook #'elpy-mode)
-
 
                                             ;;
                                                                                                                          ;;

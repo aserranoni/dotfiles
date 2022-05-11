@@ -108,6 +108,7 @@ emacs --daemon
 export PATH="$HOME/./pact:$PATH"
 alias gitinfo-installer='~/gitinfo-installer/gitinfo-installer.sh'
 alias arduino='arduino-cli.exe'
+alias math='/mnt/d/Arquivos\ de\ Programas/Wolfram\ Research/Mathematica/12.0/math.exe'
 alias read-com-port='sh ~/coisas/matematicasdavida/minhascoisas/arduino/readcomport.sh'
 alias emacs=emacsclient --create-frame --alternate-editor="" &
 export PYTHONBREAKPOINT=ipdb.set_trace
