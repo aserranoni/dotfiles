@@ -436,8 +436,3 @@
         "/mnt/c/Program-Files/Wolfram-Research/Mathematica/12.0/math.exe")
 
       #+end_src
-                   
-      
-
-
-      

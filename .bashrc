@@ -104,12 +104,21 @@ fi
 
 #export DISPLAY=$(cat /etc/resolv.conf | grep nameserver | awk '{print $2; exit;}'):0
 #export LIBGL_ALWAYS_INDIRECT=1
-emacs --daemon
+if [ -z "$(pgrep emacs)" ]; then
+  emacs --daemon
+fi
 export PATH="$HOME/./pact:$PATH"
 alias gitinfo-installer='~/gitinfo-installer/gitinfo-installer.sh'
 alias arduino='arduino-cli.exe'
 alias math='/mnt/d/Arquivos\ de\ Programas/Wolfram\ Research/Mathematica/12.0/math.exe'
 alias read-com-port='sh ~/coisas/matematicasdavida/minhascoisas/arduino/readcomport.sh'
-alias emacs=emacsclient --create-frame --alternate-editor="" &
+alias emacs='emacsclient --create-frame --alternate-editor="" &'
 export PYTHONBREAKPOINT=ipdb.set_trace
-#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
+alias python='python3'
+#  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
+
+[ -f "/home/futebolousado/.ghcup/env" ] && source "/home/futebolousado/.ghcup/env" # ghcup-env
+# pnpm
+export PNPM_HOME="/home/futebolousado/.local/share/pnpm"
+export PATH="$PNPM_HOME:$PATH"
+# pnpm end
